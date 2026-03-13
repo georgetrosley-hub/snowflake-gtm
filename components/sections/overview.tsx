@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo, useRef, useCallback } from "react";
-import { motion } from "framer-motion";
 import { AlertTriangle, ArrowRight, Crosshair, Users, Eye, CircleDot, Zap, Target } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
 import type { SectionId } from "@/components/layout/sidebar";
@@ -103,12 +102,8 @@ export function Overview({
   );
   const staleItems = executionItems.filter((i) => isStale(i.lastUpdated));
 
-  const MotionRoot = motion.div;
   return (
-    <MotionRoot
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.45 }}
+    <div
       className="space-y-10 sm:space-y-12"
     >
       {/* VP oversight — 30-second scan for Ryan */}
@@ -396,6 +391,6 @@ export function Overview({
           ))}
         </div>
       </section>
-    </MotionRoot>
+    </div>
   );
 }
