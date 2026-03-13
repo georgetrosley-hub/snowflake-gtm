@@ -113,39 +113,44 @@ function getSecondSponsor(account: Account) {
 
 function getLastTouchLabel(account: Account) {
   const flagship = getFlagshipDealContext(account.id);
-  if (account.id === "jnj" && flagship)
-    return `Call with ${flagship.championName} · Mon 09:30`;
-  if (account.id === "merck" && flagship)
-    return `Call with ${flagship.championName} · Tue 14:00`;
   if (account.id === "pfizer" && flagship)
     return `Call with ${flagship.championName} · Wed 11:15`;
-  if (account.id === "jnj") return "Clinical Data intro call · Mon 09:30";
-  if (account.id === "merck") return "R&D Data Platform follow-up · Tue 14:00";
   if (account.id === "pfizer") return "Medical affairs prep note · Wed 11:15";
+  if (account.id === "jpmorgan") return "Architecture review · Mar 18";
+  if (account.id === "comcast") return "Security review · This week";
+  if (account.id === "morgan-stanley") return "Wealth mgmt intro · Scheduled";
+  if (account.id === "salesforce") return "Platform eng discovery · This week";
+  if (account.id === "nvidia") return "AI/ML team intro · Pending";
+  if (account.id === "capital-one") return "Pilot scope draft · In progress";
+  if (account.id === "adp") return "HR ops demo · Scheduled";
   return "Account review note · This week";
 }
 
 function getRecentMoment(account: Account) {
-  if (account.id === "jnj") {
-    return "Clinical Data Sciences reacted positively to a governed pilot framed around trial analytics and Unity Catalog.";
-  }
-
-  if (account.id === "merck") {
-    return "R&D Data Platform showed interest in a data lake and Mosaic AI wedge. Palantir is in play but not blocking.";
-  }
-
   if (account.id === "pfizer") {
     return "Regulated document workflows continue to resonate, but legal and validation concerns need a tighter response package.";
   }
-
-  if (account.id === "bms") {
-    return "Teams are evaluating AI tools. Need to land Claude with clear governance before broader rollouts.";
+  if (account.id === "jpmorgan") {
+    return "Security and architecture teams engaged. Governance narrative resonates; need to move through formal review.";
   }
-
-  if (account.id === "sanofi") {
-    return "Vaccines Data wants to unify analytics. EU data residency is non-negotiable. Legal and DPO review pending.";
+  if (account.id === "comcast") {
+    return "Customer experience team exploring AI use cases. Deployment narrative due for security sign-off.";
   }
-
+  if (account.id === "morgan-stanley") {
+    return "Wealth management intro in motion. Champion path forming around advisor productivity.";
+  }
+  if (account.id === "salesforce") {
+    return "Platform engineering discovery underway. Evaluating best-of-breed vs integrated AI strategy.";
+  }
+  if (account.id === "nvidia") {
+    return "AI/ML team interested in Claude for internal workflows. Build vs buy evaluation in progress.";
+  }
+  if (account.id === "capital-one") {
+    return "POV selected. Pilot scope draft in progress. Compliance and security reviews scheduled.";
+  }
+  if (account.id === "adp") {
+    return "HR ops demo scheduled. Champion path forming around payroll and compliance workflows.";
+  }
   return "Recent conversations support a narrow first wedge, but the executive case still needs tightening.";
 }
 
@@ -467,50 +472,6 @@ export function buildAccountUpdates(account: Account): AccountUpdate[] {
   ];
 
   const flagship = getFlagshipDealContext(account.id);
-
-  if (account.id === "jnj" && flagship) {
-    return [
-      {
-        id: `${account.id}-specific-1`,
-        createdAt: "Today · 07:55",
-        author: "George",
-        title: "Sarah aligned on pilot scope",
-        note: `${flagship.championName} is bought in. Snowflake is in the mix — we need to move fast. Quality wants a clear governance narrative before the pilot.`,
-        tag: "call",
-      },
-      {
-        id: `${account.id}-specific-2`,
-        createdAt: "Yesterday · 16:10",
-        author: "George",
-        title: "Need a tighter sponsor ask",
-        note: `Before I bring ${sponsor.name} deeper in, I need a crisp internal brief that explains why this pilot is small, governable, and worth executive attention. Snowflake is evaluating — need to land before they gain momentum.`,
-        tag: "exec",
-      },
-      ...baseUpdates,
-    ];
-  }
-
-  if (account.id === "merck" && flagship) {
-    return [
-      {
-        id: `${account.id}-specific-1`,
-        createdAt: "Today · 09:05",
-        author: "George",
-        title: "Jennifer ready, Security is the blocker",
-        note: `${flagship.championName} wants to consolidate R&D data. Palantir is in play but we're landing with an additive use case. Security wants IP and data residency clarity.`,
-        tag: "call",
-      },
-      {
-        id: `${account.id}-specific-2`,
-        createdAt: "Yesterday · 15:25",
-        author: "George",
-        title: "Expansion should stay in the background",
-        note: "Clinical and manufacturing analytics are the likely second act, but I should not oversell expansion before the R&D data platform pilot has a real owner and success metrics.",
-        tag: "next_step",
-      },
-      ...baseUpdates,
-    ];
-  }
 
   if (account.id === "pfizer" && flagship) {
     return [

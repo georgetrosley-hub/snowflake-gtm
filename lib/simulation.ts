@@ -82,7 +82,7 @@ let eventId = 0;
 let approvalId = 0;
 
 function getEventTemplates(accountId: string): EventTemplate[] {
-  return EVENT_TEMPLATES[accountId] ?? EVENT_TEMPLATES.jnj;
+  return EVENT_TEMPLATES[accountId] ?? EVENT_TEMPLATES.pfizer;
 }
 
 function getApprovalTemplates(accountId: string) {

@@ -64,23 +64,16 @@ export function ExecutiveNarrative({ account, competitors }: ExecutiveNarrativeP
     });
   }, [account, competitors, boardSummary]);
 
-  const staticNarratives: Record<string, { whyNow: string; whyClaude: string; whyNot: string; impact: string; governance: string; rollout: string }> = {
-    jnj: {
-      whyNow: "J&J is consolidating AI tools. OpenAI and Microsoft are in evaluation — we need to move fast. Security wants clear governance before pilot.",
-      whyClaude: "Constitutional AI, strong enterprise governance, predictable model behavior. Safe choice for regulated workflows.",
-      whyNot: "OpenAI and Copilot are in the mix. Internal tools lack governance. Need to differentiate on safety and enterprise controls.",
-      impact: "Enterprise AI adoption, knowledge workflows, expansion to R&D and regulatory use cases.",
-      governance: "SOC 2, audit trail, data residency. Security and Legal review in progress.",
-      rollout: "Phase 1: Pilot with controlled team. Phase 2: Broader deployment. Phase 3: Enterprise standard.",
-    },
-    merck: {
-      whyNow: "R&D and operations want governed AI. Microsoft Copilot is entrenched in some workflows; we land with an additive use case first.",
-      whyClaude: "Frontier model quality with enterprise controls. Long context, strong reasoning. No training on customer data.",
-      whyNot: "Microsoft Copilot has relationships. Need additive use case — not displacement.",
-      impact: "Knowledge retrieval, document workflows, R&D acceleration.",
-      governance: "Data residency, access controls, audit. Security review required.",
-      rollout: "Phase 1: Pilot. Phase 2: Expansion. Phase 3: Enterprise standard.",
-    },
+  const defaultNarrative = {
+    whyNow: "Account is evaluating AI tools. OpenAI and Microsoft are in the mix — need to move with clear governance and differentiation.",
+    whyClaude: "Constitutional AI, strong enterprise governance, predictable model behavior. Safe choice for regulated or high-stakes workflows.",
+    whyNot: "OpenAI and Copilot have broad adoption. Need to differentiate on safety, enterprise controls, and no training on customer data.",
+    impact: "Enterprise AI adoption, knowledge workflows, and expansion into core business use cases.",
+    governance: "SOC 2, audit trail, data residency. Security and Legal review in progress.",
+    rollout: "Phase 1: Pilot with controlled team. Phase 2: Broader deployment. Phase 3: Enterprise standard.",
+  };
+
+  const staticNarratives: Record<string, typeof defaultNarrative> = {
     pfizer: {
       whyNow: "Medical Affairs exploring regulated document workflows. Legal and Quality want explicit deployment narrative before sign-off.",
       whyClaude: "Strong governance posture. Constitutional AI. Safe choice for regulated environment. No training on customer data.",
@@ -89,9 +82,20 @@ export function ExecutiveNarrative({ account, competitors }: ExecutiveNarrativeP
       governance: "Data residency, access controls, audit trail. Legal and Quality sign-off required.",
       rollout: "Phase 1: Medical Affairs pilot. Phase 2: Broader R&D. Phase 3: Enterprise rollout.",
     },
+    jpmorgan: {
+      whyNow: "Developer productivity and AI governance are top priorities. Architecture review scheduled — need clear deployment narrative.",
+      whyClaude: "Enterprise controls, no training on customer data, strong governance. Fits regulated financial services requirements.",
+      whyNot: "Microsoft Copilot, internal builds. Differentiate on governance and best-of-breed model choice.",
+      impact: "Developer productivity, operations automation, path to expansion.",
+      governance: "Regulatory and audit requirements. Architecture and security review in progress.",
+      rollout: "Phase 1: Controlled pilot. Phase 2: Broader engineering. Phase 3: Enterprise standard.",
+    },
+    ...Object.fromEntries(
+      ["comcast", "morgan-stanley", "salesforce", "nvidia", "capital-one", "adp"].map((id) => [id, defaultNarrative])
+    ),
   };
 
-  const n = staticNarratives[account.id] ?? staticNarratives.jnj;
+  const n = staticNarratives[account.id] ?? defaultNarrative;
 
   const sections = [
     { label: "Why now", content: n.whyNow },
