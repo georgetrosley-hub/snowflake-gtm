@@ -11,14 +11,17 @@ import { cn } from "@/lib/utils";
 import type { Account, Competitor } from "@/types";
 
 const useCases = [
-  { id: "clinical_analytics", name: "Clinical Trial Analytics", icon: BarChart3, industry: "Life Sciences", function: "Clinical Ops", complexity: "Medium", timeToValue: "6-10 weeks", description: "Trial data ingestion, site performance, enrollment analytics with Delta Lake and Unity Catalog" },
-  { id: "rwe", name: "Real-World Evidence", icon: Lightbulb, industry: "Life Sciences", function: "R&D", complexity: "High", timeToValue: "8-12 weeks", description: "RWE data platform, outcomes research, patient analytics with Lakehouse and Mosaic AI" },
-  { id: "rd_data_lake", name: "R&D Data Lake", icon: Search, industry: "Life Sciences", function: "R&D", complexity: "High", timeToValue: "8-12 weeks", description: "Unified discovery, preclinical, and early clinical data with Delta Lake and Unity Catalog" },
-  { id: "gxp_mlops", name: "GxP MLOps", icon: ShieldCheck, industry: "Life Sciences", function: "R&D", complexity: "High", timeToValue: "10-16 weeks", description: "Validated MLOps for drug discovery, model governance, audit trails" },
-  { id: "regulatory_submission", name: "Regulatory Submissions", icon: FileText, industry: "Life Sciences", function: "Regulatory", complexity: "High", timeToValue: "8-12 weeks", description: "Submission prep, document workflows, regulatory intelligence with governed AI" },
-  { id: "medical_affairs", name: "Medical Affairs", icon: Users, industry: "Life Sciences", function: "Medical Affairs", complexity: "Medium", timeToValue: "6-10 weeks", description: "HCP engagement prep, knowledge retrieval, medical information requests" },
-  { id: "manufacturing_analytics", name: "Manufacturing Analytics", icon: BarChart3, industry: "Life Sciences", function: "Manufacturing", complexity: "Medium", timeToValue: "6-10 weeks", description: "Quality, supply chain, and production analytics with Delta Lake" },
-  { id: "veeva_integration", name: "Veeva Integration", icon: Code, industry: "Life Sciences", function: "Clinical Ops", complexity: "Medium", timeToValue: "6-10 weeks", description: "Analytics on Veeva Vault and CRM data with Claude" },
+  { id: "dev_productivity", name: "Developer Productivity", icon: Code, industry: "Cross-Industry", function: "Engineering", complexity: "Low", timeToValue: "2-4 weeks", description: "Code generation, review, and refactoring with Claude. IDE integrations and API workflows." },
+  { id: "knowledge_retrieval", name: "Knowledge Retrieval & Search", icon: Search, industry: "Cross-Industry", function: "IT/Operations", complexity: "Medium", timeToValue: "4-8 weeks", description: "Enterprise search, document Q&A, and RAG over internal knowledge bases and docs." },
+  { id: "customer_support", name: "Customer Support Automation", icon: HeadphonesIcon, industry: "Cross-Industry", function: "Support", complexity: "Medium", timeToValue: "4-8 weeks", description: "Ticket triage, response drafting, escalation handling, and knowledge-assisted resolution." },
+  { id: "document_workflows", name: "Document Processing & Review", icon: FileText, industry: "Cross-Industry", function: "Legal/Compliance", complexity: "Medium", timeToValue: "6-10 weeks", description: "Contract analysis, compliance review, summarization, and regulated document workflows." },
+  { id: "sales_enablement", name: "Sales Enablement", icon: Users, industry: "Cross-Industry", function: "Sales", complexity: "Low", timeToValue: "2-4 weeks", description: "Proposal drafting, objection handling, call prep, and competitive battle card generation." },
+  { id: "regulatory_compliance", name: "Regulatory & Compliance", icon: ShieldCheck, industry: "Regulated", function: "Compliance", complexity: "High", timeToValue: "8-12 weeks", description: "Regulatory submission prep, audit documentation, policy review, and compliance workflows." },
+  { id: "clinical_analytics", name: "Clinical Trial Analytics", icon: BarChart3, industry: "Life Sciences", function: "Clinical Ops", complexity: "Medium", timeToValue: "6-10 weeks", description: "Trial data ingestion, site performance, enrollment analytics with governed AI." },
+  { id: "medical_affairs", name: "Medical Affairs", icon: Users, industry: "Life Sciences", function: "Medical Affairs", complexity: "Medium", timeToValue: "6-10 weeks", description: "HCP engagement prep, knowledge retrieval, medical information requests." },
+  { id: "model_risk", name: "Model Risk & Governance", icon: ShieldCheck, industry: "Financial Services", function: "Risk", complexity: "High", timeToValue: "8-12 weeks", description: "Model validation, governance frameworks, and audit trails for AI in regulated finance." },
+  { id: "wealth_advisor", name: "Wealth & Advisor Tools", icon: Lightbulb, industry: "Financial Services", function: "Wealth Management", complexity: "Medium", timeToValue: "4-8 weeks", description: "Advisor productivity, research synthesis, client communication support." },
+  { id: "hr_payroll", name: "HR & Payroll Workflows", icon: Users, industry: "Cross-Industry", function: "HR", complexity: "Medium", timeToValue: "4-8 weeks", description: "Policy Q&A, payroll support, employee self-service, and HR operations automation." },
 ];
 
 interface UseCaseLibraryProps {
@@ -47,7 +50,7 @@ export function UseCaseLibrary({ account, competitors }: UseCaseLibraryProps) {
         type: "use_case_recommendation",
         account,
         competitors,
-        context: `Based on ${account.name}'s profile, recommend the top 5 Claude use cases for life sciences in priority order. Consider their industry, developer population of ${account.developerPopulation.toLocaleString()}, AI maturity of ${account.aiMaturityScore}/100, and existing vendor footprint.`,
+        context: `Based on ${account.name}'s profile, recommend the top 5 Claude use cases in priority order. Consider: industry (infer from company name if needed), developer population of ${account.developerPopulation.toLocaleString()}, AI maturity of ${account.aiMaturityScore}/100, first wedge "${account.firstWedge}", existing vendors (${account.existingVendorFootprint.join(", ")}). Be specific to this account.`,
       },
     });
   }, [account, competitors, recommendation]);

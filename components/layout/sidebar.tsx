@@ -20,6 +20,9 @@ import {
   GitBranch,
   Cpu,
   Shield,
+  Crosshair,
+  Calculator,
+  Lightbulb,
 } from "lucide-react";
 
 const sectionGroups = [
@@ -27,6 +30,7 @@ const sectionGroups = [
     label: "Territory",
     items: [
       { id: "overview", label: "War Room", icon: LayoutDashboard },
+      { id: "accountIntelligence", label: "Account Intelligence", icon: Crosshair },
       { id: "pipeline", label: "Pipeline", icon: BarChart3 },
       { id: "dealSimulation", label: "Deal Simulation", icon: GitBranch },
       { id: "dealProgression", label: "Deal Progression", icon: TrendingUp },
@@ -46,6 +50,8 @@ const sectionGroups = [
   {
     label: "GTM Intel",
     items: [
+      { id: "useCaseLibrary", label: "Use Case Library", icon: Lightbulb },
+      { id: "roiCalculator", label: "ROI Calculator", icon: Calculator },
       { id: "territoryEngine", label: "Territory Engine", icon: Cpu },
       { id: "enterpriseComparison", label: "Claude vs Competitors", icon: Shield },
     ],

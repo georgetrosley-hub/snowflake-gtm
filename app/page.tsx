@@ -6,6 +6,7 @@ import { Sidebar, type SectionId } from "@/components/layout/sidebar";
 import { StatusBar } from "@/components/layout/status-bar";
 import { ChatPanel } from "@/components/layout/chat-panel";
 import { Overview } from "@/components/sections/overview";
+import { AccountIntelligence } from "@/components/sections/account-intelligence";
 import { PipelineDashboard } from "@/components/sections/pipeline-dashboard";
 import { DealSimulation } from "@/components/sections/deal-simulation";
 import { DealProgression } from "@/components/sections/deal-progression";
@@ -15,6 +16,8 @@ import { Execution } from "@/components/sections/execution";
 import { First90Days } from "@/components/sections/first-90-days";
 import { Signals } from "@/components/sections/signals";
 import { ArtifactsWorkspace } from "@/components/sections/artifacts-workspace";
+import { UseCaseLibrary } from "@/components/sections/use-case-library";
+import { ROICalculator } from "@/components/sections/roi-calculator";
 import { TerritoryEngine } from "@/components/sections/territory-engine";
 import { EnterpriseComparison } from "@/components/sections/enterprise-comparison";
 import { motion, AnimatePresence } from "framer-motion";
@@ -86,6 +89,14 @@ function MainContent() {
         onSectionChange={handleSectionChange}
       />
     ),
+    accountIntelligence: (
+      <AccountIntelligence
+        account={account}
+        competitors={competitors}
+        stakeholders={stakeholders}
+        onNavigateTo={(section) => handleSectionChange(section as SectionId)}
+      />
+    ),
     pipeline: <PipelineDashboard />,
     dealSimulation: (
       <DealSimulation
@@ -148,6 +159,18 @@ function MainContent() {
     ),
     artifacts: (
       <ArtifactsWorkspace
+        account={account}
+        competitors={competitors}
+      />
+    ),
+    useCaseLibrary: (
+      <UseCaseLibrary
+        account={account}
+        competitors={competitors}
+      />
+    ),
+    roiCalculator: (
+      <ROICalculator
         account={account}
         competitors={competitors}
       />
