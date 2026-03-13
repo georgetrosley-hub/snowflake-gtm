@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef, useCallback } from "react";
+import React, { useState, useMemo, useRef, useCallback } from "react";
 import { AlertTriangle, ArrowRight, Crosshair, Users, Eye, CircleDot, Zap, Target } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
 import type { SectionId } from "@/components/layout/sidebar";
@@ -102,10 +102,10 @@ export function Overview({
   );
   const staleItems = executionItems.filter((i) => isStale(i.lastUpdated));
 
-  return (
-    <div
-      className="space-y-10 sm:space-y-12"
-    >
+  return React.createElement(
+    "div",
+    { className: "space-y-10 sm:space-y-12" },
+    <>
       {/* VP oversight — 30-second scan for Ryan */}
       <section className="rounded-2xl border border-accent/20 bg-white/[0.02] p-4 sm:p-6">
         <div className="flex items-center gap-2">
@@ -391,6 +391,6 @@ export function Overview({
           ))}
         </div>
       </section>
-    </div>
+    </>
   );
 }
