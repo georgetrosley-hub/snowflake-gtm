@@ -297,7 +297,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           {
             id: `${accountId}-custom-${Date.now()}`,
             createdAt: "Just now",
-            author: "George",
+            author: "AE",
             title: trimmedTitle,
             note: trimmedNote,
             tag,

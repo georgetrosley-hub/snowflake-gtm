@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-import { AdaptiveLogoImage } from "@/components/ui/adaptive-logo";
+import { SnowflakeLogoIcon, SnowflakeWordmark } from "@/components/ui/snowflake-logo";
 import {
   FileText,
   Users,
@@ -23,18 +23,18 @@ import {
   Crosshair,
   Calculator,
   Lightbulb,
-  UserCircle,
   Target,
+  Sparkles,
 } from "lucide-react";
 
-const ADAPTIVE_DEMO_URL = "https://www.adaptivesecurity.com/demo/security-awareness-training";
+const SNOWFLAKE_SUMMIT_URL = "https://www.snowflake.com/en/summit/";
 
 const sectionGroups = [
   {
-    label: "You",
+    label: "Platform",
     items: [
-      { id: "resume", label: "Resume", icon: UserCircle },
-      { id: "whyGeorge", label: "How I Run Deals", icon: Target },
+      { id: "resume", label: "Platform Overview", icon: Sparkles },
+      { id: "whyGeorge", label: "Why Snowflake, Why Now", icon: Target },
     ],
   },
   {
@@ -43,7 +43,7 @@ const sectionGroups = [
       { id: "overview", label: "War Room", icon: LayoutDashboard },
       { id: "accountIntelligence", label: "Account Intelligence", icon: Crosshair },
       { id: "pipeline", label: "Pipeline", icon: BarChart3 },
-      { id: "dealSimulation", label: "Deal playbook", icon: GitBranch },
+      { id: "dealSimulation", label: "Deal Playbook", icon: GitBranch },
       { id: "dealProgression", label: "Deal Progression", icon: TrendingUp },
       { id: "accountLog", label: "Account Log", icon: ClipboardList },
       { id: "stakeholders", label: "Stakeholder Map", icon: Users },
@@ -64,7 +64,7 @@ const sectionGroups = [
       { id: "useCaseLibrary", label: "Use Case Library", icon: Lightbulb },
       { id: "roiCalculator", label: "ROI Calculator", icon: Calculator },
       { id: "territoryEngine", label: "Territory Engine", icon: Cpu },
-      { id: "enterpriseComparison", label: "Adaptive vs Alternatives", icon: Shield },
+      { id: "enterpriseComparison", label: "Platform vs Alternatives", icon: Shield },
     ],
   },
 ] as const;
@@ -110,15 +110,13 @@ function SidebarBody({
         <div className="flex items-center justify-between gap-2">
           <div className={cn("flex items-center gap-2", compact && "justify-center")}>
             <div className="flex h-6 w-6 items-center justify-center overflow-hidden rounded-md">
-              <AdaptiveLogoImage size={24} className="h-full w-full object-contain" />
+              <SnowflakeLogoIcon size={24} className="h-full w-full" />
             </div>
             {!compact && (
               <div>
-                <h1 className="text-[13px] font-semibold tracking-tight text-text-primary">
-                  Adaptive Security
-                </h1>
+                <SnowflakeWordmark />
                 <p className="text-[11px] text-text-muted">
-                  GTM War Room
+                  GTM Command Center
                 </p>
               </div>
             )}
@@ -219,13 +217,11 @@ function SidebarBody({
 
       <div className={cn("mt-auto border-t border-surface-border/30 px-5 py-4", compact && "px-3")}>
         <div className={cn("flex items-center gap-2.5", compact && "justify-center")}>
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-surface-muted/80 text-[10px] font-semibold text-text-secondary ring-1 ring-surface-border/50">
-            GT
-          </div>
+          <SnowflakeLogoIcon size={20} className="shrink-0 opacity-80" />
           {!compact && (
             <div className="min-w-0">
-              <p className="truncate text-[12px] font-medium text-text-secondary">George Trosley</p>
-              <p className="text-[10px] text-text-faint">Enterprise AE · Strategic</p>
+              <p className="truncate text-[12px] font-medium text-text-secondary">Internal AE</p>
+              <p className="text-[10px] text-text-faint">AI Data Cloud</p>
             </div>
           )}
         </div>
@@ -234,15 +230,15 @@ function SidebarBody({
       {!compact && (
         <div className="space-y-2 px-5 pb-4">
           <a
-            href={ADAPTIVE_DEMO_URL}
+            href={SNOWFLAKE_SUMMIT_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="block text-[10px] text-accent/80 hover:text-accent underline underline-offset-2"
           >
-            Try Adaptive demo →
+            Snowflake Summit →
           </a>
           <p className="text-[10px] text-text-faint/60">
-            Built for Adaptive Security
+            Internal GTM · snowflake.com
           </p>
         </div>
       )}

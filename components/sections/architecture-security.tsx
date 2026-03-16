@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { AdaptiveLogo } from "@/components/ui/adaptive-logo";
+import { SnowflakeLogo } from "@/components/ui/snowflake-logo";
 import type { Account, Competitor } from "@/types";
 
 interface ArchitectureSecurityProps {
@@ -30,7 +30,7 @@ export function ArchitectureSecurity({ account, competitors }: ArchitectureSecur
         type: "strategy_assessment",
         account,
         competitors,
-        context: `Generate a detailed recommendation for deploying Adaptive Security Awareness at ${account.name}. Their existing vendors include: ${account.existingVendorFootprint.join(", ")}. Security sensitivity: ${account.securitySensitivity}/100. Compliance complexity: ${account.complianceComplexity}/100.\n\nInclude:\n1. Recommended rollout approach (phased by department or risk)\n2. Integration with their existing security and learning stack\n3. Data and content handling, access control\n4. Security and compliance considerations\n5. Phased rollout plan\n6. Prerequisites and potential blockers`,
+        context: `Generate a detailed recommendation for deploying the Snowflake AI Data Cloud at ${account.name}. Their existing vendors include: ${account.existingVendorFootprint.join(", ")}. Security sensitivity: ${account.securitySensitivity}/100. Compliance complexity: ${account.complianceComplexity}/100.\n\nInclude:\n1. Recommended rollout approach (phased by workload or team)\n2. Integration with their existing data and AI stack\n3. Data handling, Horizon governance, access control\n4. Security and compliance considerations\n5. Phased rollout plan\n6. Prerequisites and potential blockers`,
       },
     });
   }, [account, competitors, archRecommendation]);
@@ -57,7 +57,7 @@ export function ArchitectureSecurity({ account, competitors }: ArchitectureSecur
             <div className="grid w-full grid-cols-1 gap-3 sm:grid-cols-3">
               <div className="flex flex-col gap-2">
                 <div className="rounded-md border border-accent/25 bg-accent/[0.04] px-3 py-2 text-[12px] font-medium text-accent/90">
-                  Adaptive
+                  Snowflake
                 </div>
                 <div className="rounded-md border border-surface-border/50 px-3 py-2 text-[11px] text-text-muted">
                   Retrieval
@@ -135,13 +135,13 @@ export function ArchitectureSecurity({ account, competitors }: ArchitectureSecur
         </div>
       </div>
 
-      {/* Adaptive deployment recommendation */}
+      {/* Snowflake deployment recommendation */}
       <button
         onClick={generateArchRecommendation}
         disabled={archRecommendation.isStreaming}
         className="flex w-full items-center justify-center gap-2 rounded-lg border border-accent/20 bg-accent/[0.06] px-4 py-2.5 text-[13px] font-medium text-accent/90 transition-colors hover:bg-accent/10 disabled:opacity-50 sm:w-auto"
       >
-        <AdaptiveLogo size={14} />
+        <SnowflakeLogo size={14} />
         {archLoaded ? "Refresh Architecture Recommendation" : "Generate Architecture Recommendation"}
       </button>
 

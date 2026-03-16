@@ -8,45 +8,52 @@ type Strength = "strong" | "strongest" | "moderate" | "improving" | "unknown";
 
 const rows: {
   factor: string;
-  adaptive: Strength;
-  knowbe4: Strength;
-  cofense: Strength;
-  proofpoint?: Strength;
+  snowflake: Strength;
+  databricks: Strength;
+  bigquery: Strength;
+  redshift?: Strength;
 }[] = [
   {
-    factor: "Deepfake & AI-generated threat training",
-    adaptive: "strongest",
-    knowbe4: "moderate",
-    cofense: "moderate",
-    proofpoint: "improving",
+    factor: "Governed AI — single platform for data + models + agents",
+    snowflake: "strongest",
+    databricks: "strong",
+    bigquery: "moderate",
+    redshift: "moderate",
   },
   {
-    factor: "Microlearning & engagement (TikTok-style)",
-    adaptive: "strongest",
-    knowbe4: "moderate",
-    cofense: "moderate",
-    proofpoint: "moderate",
+    factor: "Native Cortex Agents & Snowflake Intelligence",
+    snowflake: "strongest",
+    databricks: "improving",
+    bigquery: "moderate",
+    redshift: "unknown",
   },
   {
-    factor: "Phishing simulation + just-in-time learning",
-    adaptive: "strong",
-    knowbe4: "strong",
-    cofense: "strong",
-    proofpoint: "strong",
+    factor: "Multi-model (OpenAI, Anthropic) in one perimeter",
+    snowflake: "strongest",
+    databricks: "strong",
+    bigquery: "moderate",
+    redshift: "moderate",
   },
   {
-    factor: "Always-fresh content & automation",
-    adaptive: "strong",
-    knowbe4: "moderate",
-    cofense: "moderate",
-    proofpoint: "moderate",
+    factor: "Developer workflow — Cortex Code, MCP, Postgres",
+    snowflake: "strong",
+    databricks: "strong",
+    bigquery: "moderate",
+    redshift: "moderate",
   },
   {
-    factor: "Security culture vs checkbox compliance",
-    adaptive: "strong",
-    knowbe4: "moderate",
-    cofense: "moderate",
-    proofpoint: "unknown",
+    factor: "Horizon Catalog — lineage, policy, interoperability",
+    snowflake: "strongest",
+    databricks: "strong",
+    bigquery: "moderate",
+    redshift: "moderate",
+  },
+  {
+    factor: "Observability & cost control for AI workloads",
+    snowflake: "strong",
+    databricks: "strong",
+    bigquery: "moderate",
+    redshift: "unknown",
   },
 ];
 
@@ -98,8 +105,8 @@ export function EnterpriseComparison() {
       className="space-y-8 sm:space-y-10"
     >
       <SectionHeader
-        title="Adaptive vs Alternatives"
-        subtitle="Security awareness buying decisions — deepfake training, engagement, and security culture. Not checkbox compliance."
+        title="Platform vs Alternatives"
+        subtitle="AI Data Cloud positioning — governed data, multi-model AI, developer workflow, and trust. Not point solutions."
       />
 
       <div className="overflow-x-auto">
@@ -110,59 +117,46 @@ export function EnterpriseComparison() {
                 Factor
               </th>
               <th className="px-4 pb-3 text-left text-[10px] font-medium uppercase tracking-wider text-accent">
-                Adaptive
+                Snowflake
               </th>
               <th className="px-4 pb-3 text-left text-[10px] font-medium uppercase tracking-wider text-text-faint">
-                KnowBe4
+                Databricks
               </th>
               <th className="px-4 pb-3 text-left text-[10px] font-medium uppercase tracking-wider text-text-faint">
-                Cofense
+                BigQuery
               </th>
               <th className="px-4 pb-3 text-left text-[10px] font-medium uppercase tracking-wider text-text-faint">
-                Proofpoint
+                Redshift
               </th>
             </tr>
           </thead>
           <tbody>
-            {rows.map((row, idx) => (
-              <motion.tr
-                key={row.factor}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: idx * 0.05 }}
-                className="border-b border-surface-border/20 last:border-b-0"
-              >
-                <td className="py-3 pr-4 font-medium text-text-primary">
-                  {row.factor}
+            {rows.map((row) => (
+              <tr key={row.factor} className="border-b border-surface-border/20">
+                <td className="py-3 pr-4 text-text-secondary">{row.factor}</td>
+                <td className="px-4 py-3">
+                  <StrengthBadge s={row.snowflake} />
                 </td>
                 <td className="px-4 py-3">
-                  <StrengthBadge s={row.adaptive} />
+                  <StrengthBadge s={row.databricks} />
                 </td>
                 <td className="px-4 py-3">
-                  <StrengthBadge s={row.knowbe4} />
+                  <StrengthBadge s={row.bigquery} />
                 </td>
                 <td className="px-4 py-3">
-                  <StrengthBadge s={row.cofense} />
+                  {row.redshift && <StrengthBadge s={row.redshift} />}
                 </td>
-                <td className="px-4 py-3">
-                  <StrengthBadge s={row.proofpoint ?? "unknown"} />
-                </td>
-              </motion.tr>
+              </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      <div className="flex items-start gap-3 rounded-xl border border-accent/20 bg-accent/[0.06] px-4 py-3">
-        <Shield className="mt-0.5 h-4 w-4 shrink-0 text-accent" strokeWidth={1.8} />
-        <div>
-          <p className="text-[12px] font-medium text-text-primary">
-            Deal positioning intelligence
-          </p>
-          <p className="mt-1 text-[11px] text-text-muted">
-            I use this framing to help security leaders compare on what matters: deepfake defense, real engagement, and security culture — not just phishing click rates.
-          </p>
-        </div>
+      <div className="rounded-xl border border-surface-border/40 bg-surface-elevated/30 px-4 py-3">
+        <p className="text-[12px] text-text-muted">
+          <Shield className="inline h-3.5 w-3.5 mr-1 text-accent" />
+          Internal GTM reference. Use for competitive positioning and deal conversations. Snowflake differentiates on governed AI, single platform, and enterprise trust.
+        </p>
       </div>
     </motion.div>
   );

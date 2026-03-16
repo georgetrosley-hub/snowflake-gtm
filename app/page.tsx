@@ -25,7 +25,7 @@ import { WhyGeorge } from "@/components/sections/why-george";
 import { motion, AnimatePresence } from "framer-motion";
 
 function MainContent() {
-  const [activeSection, setActiveSection] = useState<SectionId>("resume");
+  const [activeSection, setActiveSection] = useState<SectionId>("resume"); // Platform Overview
   const [chatOpen, setChatOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -200,7 +200,7 @@ function MainContent() {
         onToggleCollapsed={() => setSidebarCollapsed((prev) => !prev)}
       />
       <div className="relative flex min-w-0 flex-1 flex-col overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(224,160,85,0.07),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(234,180,120,0.04),transparent_55%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(41,181,232,0.06),transparent_55%),radial-gradient(ellipse_at_bottom_left,rgba(41,181,232,0.04),transparent_55%)]" />
 
         <StatusBar
           account={account}

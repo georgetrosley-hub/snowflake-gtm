@@ -11,7 +11,7 @@ import type { Account, Competitor } from "@/types";
 
 const quickQuestions = [
   { category: "Certifications", icon: FileCheck, questions: [
-    "Is Adaptive SOC 2 Type II certified?",
+    "Is Snowflake SOC 2 Type II certified?",
     "Do you support HIPAA? Is a BAA available?",
     "What compliance frameworks do you support?",
     "Do you have FedRAMP authorization?",

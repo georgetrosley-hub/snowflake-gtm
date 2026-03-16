@@ -29,13 +29,8 @@ const config: Config = {
           DEFAULT: cssColor("--accent"),
           muted: cssColor("--accent-muted"),
           subtle: cssColor("--accent-subtle"),
-          glow: "rgb(var(--accent) / 0.12)",
+          glow: "rgb(var(--accent) / 0.15)",
         },
-        "adaptive-accent": {
-          DEFAULT: cssColor("--adaptive-accent"),
-        },
-        /* legacy alias for gradual replace */
-        "claude-coral": cssColor("--accent"),
       },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
@@ -57,8 +52,8 @@ const config: Config = {
         lg: "12px",
       },
       boxShadow: {
-        "glow-sm": "0 0 12px rgba(224, 160, 85, 0.12)",
-        "glow-md": "0 0 24px rgba(224, 160, 85, 0.16)",
+        "glow-sm": "0 0 12px rgba(41, 181, 232, 0.15)",
+        "glow-md": "0 0 24px rgba(41, 181, 232, 0.2)",
         elevated: "0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06)",
       },
       backgroundImage: {

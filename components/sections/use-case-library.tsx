@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import type { Account, Competitor } from "@/types";
 
 const useCases = [
-  { id: "dev_productivity", name: "Developer Productivity", icon: Code, industry: "Cross-Industry", function: "Engineering", complexity: "Low", timeToValue: "2-4 weeks", description: "Code generation, review, and refactoring with Claude. IDE integrations and API workflows." },
+  { id: "dev_productivity", name: "Developer Productivity", icon: Code, industry: "Cross-Industry", function: "Engineering", complexity: "Low", timeToValue: "2-4 weeks", description: "Cortex Code, AI-assisted development, and governed workflows. Snowsight, CLI, and MCP." },
   { id: "knowledge_retrieval", name: "Knowledge Retrieval & Search", icon: Search, industry: "Cross-Industry", function: "IT/Operations", complexity: "Medium", timeToValue: "4-8 weeks", description: "Enterprise search, document Q&A, and RAG over internal knowledge bases and docs." },
   { id: "customer_support", name: "Customer Support Automation", icon: HeadphonesIcon, industry: "Cross-Industry", function: "Support", complexity: "Medium", timeToValue: "4-8 weeks", description: "Ticket triage, response drafting, escalation handling, and knowledge-assisted resolution." },
   { id: "document_workflows", name: "Document Processing & Review", icon: FileText, industry: "Cross-Industry", function: "Legal/Compliance", complexity: "Medium", timeToValue: "6-10 weeks", description: "Contract analysis, compliance review, summarization, and regulated document workflows." },
@@ -50,7 +50,7 @@ export function UseCaseLibrary({ account, competitors }: UseCaseLibraryProps) {
         type: "use_case_recommendation",
         account,
         competitors,
-        context: `Based on ${account.name}'s profile, recommend the top 5 Claude use cases in priority order. Consider: industry (infer from company name if needed), developer population of ${account.developerPopulation.toLocaleString()}, AI maturity of ${account.aiMaturityScore}/100, first wedge "${account.firstWedge}", existing vendors (${account.existingVendorFootprint.join(", ")}). Be specific to this account.`,
+        context: `Based on ${account.name}'s profile, recommend the top 5 Snowflake AI Data Cloud use cases in priority order. Consider: industry (infer from company name if needed), developer population of ${account.developerPopulation.toLocaleString()}, AI maturity of ${account.aiMaturityScore}/100, first wedge "${account.firstWedge}", existing vendors (${account.existingVendorFootprint.join(", ")}). Be specific to this account.`,
       },
     });
   }, [account, competitors, recommendation]);
@@ -83,7 +83,7 @@ export function UseCaseLibrary({ account, competitors }: UseCaseLibraryProps) {
       <div className="flex flex-col gap-3 sm:gap-4 lg:flex-row lg:items-end lg:justify-between">
         <SectionHeader
           title="Use case library"
-          subtitle="Claude use cases for enterprise"
+          subtitle="Snowflake use cases for enterprise"
         />
         <button
           onClick={generateRecommendation}

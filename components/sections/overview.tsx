@@ -5,7 +5,7 @@ import { AlertTriangle, ArrowRight, Crosshair, Users, Eye, CircleDot, Zap, Targe
 import { SectionHeader } from "@/components/ui/section-header";
 import type { SectionId } from "@/components/layout/sidebar";
 import { MetricCard } from "@/components/ui/metric-card";
-import { AdaptiveLogoImage } from "@/components/ui/adaptive-logo";
+import { SnowflakeLogoIcon } from "@/components/ui/snowflake-logo";
 import { useToast } from "@/app/context/toast-context";
 import { isStale } from "@/lib/deal-health";
 import { getPlansForThisWeek, getPlansForThisWeekShort } from "@/lib/plans-for-week";
@@ -109,9 +109,9 @@ export function Overview({
       {/* How I'd use this war room for these accounts */}
       <div className="rounded-xl border border-accent/15 bg-accent/[0.04] px-4 py-3">
         <div className="flex flex-wrap items-center gap-2">
-          <AdaptiveLogoImage size={18} className="opacity-95" />
+          <SnowflakeLogoIcon size={18} className="opacity-95" />
           <span className="text-[12px] font-medium text-text-primary">
-            Security Awareness GTM war room — built for Adaptive Security
+            GTM Command Center — internal AE hub for the AI Data Cloud
           </span>
           <span className="text-[11px] text-text-muted">
             · George Trosley
@@ -121,7 +121,7 @@ export function Overview({
           Given these five accounts, this is how I would use this war room to generate pipeline and close deals.
         </p>
         <p className="mt-1 text-[11px] text-text-muted">
-          Accounts in the selector are my current Pure Storage territory (ADP, DuPont, St. Luke&apos;s, Tower Health, Penn State Health) — reframed for Adaptive Security.
+          Select an account above when configured. War room, playbooks, and field kit are built for Snowflake internal AEs.
         </p>
       </div>
 
@@ -243,10 +243,10 @@ export function Overview({
         </p>
         <div className="max-w-4xl space-y-2">
           <h2 className="text-xl font-semibold tracking-tight text-text-primary sm:text-2xl">
-            How I&apos;d build pipeline and expansion for Adaptive Security inside {account.name}
+            How I&apos;d build pipeline and expansion for the AI Data Cloud at {account.name}
           </h2>
           <p className="max-w-3xl text-[14px] leading-relaxed text-text-muted">
-            Security awareness training, deepfake simulations, phishing readiness, and legacy displacement — first wedge, champion path, pilot design, and expansion. I would also lean into Adaptive&apos;s AI Content Studio to turn this account&apos;s own policies and threats into on-brand, interactive training in minutes.
+            Data platform standardization, AI workloads, Cortex Agents, Snowflake Intelligence, and developer expansion — first wedge, champion path, pilot design, and land-and-expand. I would lean into Snowflake&apos;s governed AI story and Cortex Code / MCP for builder personas.
           </p>
         </div>
       </section>
@@ -325,7 +325,7 @@ export function Overview({
         <aside className="min-w-0 space-y-4">
           <div className="rounded-[28px] border border-accent/15 bg-accent/[0.05] p-4 sm:p-6">
             <div className="flex items-center gap-2">
-              <AdaptiveLogoImage size={16} className="opacity-90" />
+              <SnowflakeLogoIcon size={16} className="opacity-90" />
               <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-accent/80">
                 My current take
               </p>

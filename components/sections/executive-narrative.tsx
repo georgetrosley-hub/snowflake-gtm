@@ -6,7 +6,7 @@ import { FileText, Presentation, BarChart3 } from "lucide-react";
 import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { AdaptiveLogo } from "@/components/ui/adaptive-logo";
+import { SnowflakeLogo } from "@/components/ui/snowflake-logo";
 import type { Account, Competitor } from "@/types";
 
 interface ExecutiveNarrativeProps {
@@ -55,7 +55,7 @@ export function ExecutiveNarrative({ account, competitors }: ExecutiveNarrativeP
         messages: [
           {
             role: "user",
-            content: `Generate a board-level summary for ${account.name}. This should be a 1-page executive brief suitable for sharing with Adaptive Security leadership. Include: account overview, strategic importance, deal status, revenue potential ($${account.estimatedLandValue}M land / $${account.estimatedExpansionValue}M expansion), key risks, competitive dynamics (security awareness / human risk), and what we need from leadership to win. Keep it concise and strategic.`,
+            content: `Generate a board-level summary for ${account.name}. This should be a 1-page executive brief suitable for sharing with Snowflake leadership. Include: account overview, strategic importance, deal status, revenue potential ($${account.estimatedLandValue}M land / $${account.estimatedExpansionValue}M expansion), key risks, competitive dynamics (data platform / AI Data Cloud), and what we need from leadership to win. Keep it concise and strategic.`,
           },
         ],
         account,
@@ -65,12 +65,12 @@ export function ExecutiveNarrative({ account, competitors }: ExecutiveNarrativeP
   }, [account, competitors, boardSummary]);
 
   const defaultNarrative = {
-    whyNow: "Account is evaluating security awareness and human-risk platforms. KnowBe4 or legacy vendor in place — need to move with clear risk reduction and differentiation.",
-    whyClaude: "Deepfake and multimodal simulation, measurable risk reduction, security culture over checkbox compliance. Safe choice for regulated and high-PII environments.",
-    whyNot: "KnowBe4 and Proofpoint have broad adoption. Need to differentiate on AI-era threats, voice/SMS simulation, and behavioral risk.",
-    impact: "Security awareness, human risk reduction, platform consolidation. Expansion into enterprise agreement.",
-    governance: "HIPAA-aware content, audit trail, data handling. Security and Legal review in progress.",
-    rollout: "Phase 1: Pilot in high-visibility department. Phase 2: Broader rollout. Phase 3: Enterprise standard.",
+    whyNow: "Account is evaluating data platform and AI workloads. Legacy warehouse or build-your-own in place — need to move with governed AI and time-to-value story.",
+    whyClaude: "Governed AI Data Cloud: Cortex Agents, Snowflake Intelligence, multi-model in one perimeter. Developer workflow with Cortex Code, MCP, Postgres. Land-and-expand from analytics to AI to apps.",
+    whyNot: "Databricks, BigQuery, Redshift have adoption. Need to differentiate on governed AI, single platform, and enterprise trust.",
+    impact: "Data platform standardization, AI workloads, developer expansion. Expansion into enterprise agreement.",
+    governance: "Horizon Catalog, lineage, resource budgets, privatelink. Security and Legal review in progress.",
+    rollout: "Phase 1: First workload or pilot. Phase 2: Platform standardization. Phase 3: AI and app expansion.",
   };
 
   const staticNarratives: Record<string, typeof defaultNarrative> = {
@@ -120,7 +120,7 @@ export function ExecutiveNarrative({ account, competitors }: ExecutiveNarrativeP
 
   const sections = [
     { label: "Why now", content: n.whyNow },
-    { label: "Why Adaptive", content: n.whyClaude },
+    { label: "Why Snowflake", content: n.whyClaude },
     { label: "Alternatives", content: n.whyNot },
     { label: "Impact", content: n.impact },
     { label: "Governance", content: n.governance },
@@ -159,7 +159,7 @@ export function ExecutiveNarrative({ account, competitors }: ExecutiveNarrativeP
         ))}
         <div className="pt-3 border-t border-surface-border/40">
           <div className="flex items-center gap-2 mb-2">
-            <AdaptiveLogo size={10} className="text-accent/40" />
+            <SnowflakeLogo size={10} className="text-accent/40" />
             <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-accent/50">Value · Sponsors</p>
           </div>
           <p className="text-[13px] text-text-secondary leading-relaxed">
@@ -175,7 +175,7 @@ export function ExecutiveNarrative({ account, competitors }: ExecutiveNarrativeP
           disabled={narrative.isStreaming}
           className="flex items-center gap-2 rounded-lg border border-accent/20 bg-accent/[0.06] px-4 py-2.5 text-[13px] font-medium text-accent/90 hover:bg-accent/10 transition-colors disabled:opacity-50"
         >
-          <AdaptiveLogo size={14} />
+          <SnowflakeLogo size={14} />
           {narrativeLoaded ? "Refresh Full Narrative" : "Generate Full Narrative"}
         </button>
         <button

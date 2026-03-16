@@ -25,38 +25,29 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://adaptive-gtm.vercel.app");
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "https://www.snowflake.com/en/");
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Enterprise GTM | Adaptive Security — George Trosley",
+  title: "GTM Command Center | Snowflake — Internal AE Hub",
   description:
-    "How I'd use a GTM war room to generate pipeline and close deals on five enterprise accounts (ADP, DuPont, St. Luke's, Tower Health, Penn State Health) for Adaptive Security. Built for recruiters & hiring managers.",
+    "Internal GTM command center for Snowflake Account Executives. Platform narrative, strategic timeline, deal playbooks, and field kit for the AI Data Cloud.",
   icons: {
-    icon: "/adaptive-logo-dark.png",
-    apple: "/adaptive-logo-dark.png",
+    icon: "/favicon.ico",
+    apple: "/favicon.ico",
   },
   openGraph: {
-    title: "Enterprise GTM | Adaptive Security — George Trosley",
+    title: "GTM Command Center | Snowflake",
     description:
-      "How I'd use a GTM war room to generate pipeline and close deals on five enterprise accounts for Adaptive Security.",
+      "Internal GTM hub for Snowflake AEs — AI Data Cloud platform story, deal execution, and field kit.",
     url: "/",
-    siteName: "Adaptive Security GTM",
-    images: [
-      {
-        url: "/adaptive-logo-dark.png",
-        width: 512,
-        height: 512,
-        alt: "Adaptive Security",
-      },
-    ],
+    siteName: "Snowflake GTM",
     type: "website",
   },
   twitter: {
     card: "summary",
-    title: "Enterprise GTM | Adaptive Security — George Trosley",
-    description:
-      "How I'd use a GTM war room to generate pipeline and close deals on five enterprise accounts for Adaptive Security.",
+    title: "GTM Command Center | Snowflake",
+    description: "Internal GTM hub for Snowflake Account Executives.",
   },
 };
 
@@ -68,7 +59,7 @@ export default function RootLayout({
   const themeScript = `
     (() => {
       try {
-        var s = localStorage.getItem("adaptive-gtm-theme");
+        var s = localStorage.getItem("snowflake-gtm-theme");
         var theme = (s === "light" || s === "dark") ? s : "dark";
         document.documentElement.dataset.theme = theme;
         document.documentElement.classList.toggle("dark", theme === "dark");

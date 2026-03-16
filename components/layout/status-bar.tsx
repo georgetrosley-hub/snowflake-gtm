@@ -16,7 +16,7 @@ import {
 import { useApiKey } from "@/app/context/api-key-context";
 import { useTheme } from "@/app/context/theme-context";
 import { cn } from "@/lib/utils";
-import { AdaptiveLogoImage } from "@/components/ui/adaptive-logo";
+import { SnowflakeLogoIcon } from "@/components/ui/snowflake-logo";
 import type { Account } from "@/types";
 import type { DealHealthSummary } from "@/lib/deal-health";
 
@@ -162,7 +162,7 @@ export function StatusBar({
                   </>
                 ) : (
                   <>
-                    <AdaptiveLogoImage size={14} className="opacity-70" />
+                    <SnowflakeLogoIcon size={14} className="opacity-70" />
                     <span className="hidden text-[11px] text-text-faint sm:inline">In sync</span>
                   </>
                 )}
@@ -186,17 +186,27 @@ export function StatusBar({
               </span>
             )}
             <span className="text-text-muted">
-              <span className="tabular-nums text-text-primary">${pipelineTarget.toFixed(2)}M</span>
+              {account.id === "na" ? (
+                <span className="text-text-faint">N/A</span>
+              ) : (
+                <span className="tabular-nums text-text-primary">${pipelineTarget.toFixed(2)}M</span>
+              )}
               {" "}in play
             </span>
             <span className="text-text-muted">
-              <span className="tabular-nums text-accent/90">${estimatedArr.toFixed(2)}M</span>
+              {account.id === "na" ? (
+                <span className="text-text-faint">N/A</span>
+              ) : (
+                <span className="tabular-nums text-accent/90">${estimatedArr.toFixed(2)}M</span>
+              )}
               {" "}at stake
             </span>
-            <span className="hidden text-text-muted md:inline">{currentPhase}</span>
+            {account.id !== "na" && (
+              <span className="hidden text-text-muted md:inline">{currentPhase}</span>
+            )}
             <span className="text-text-muted">
               <span className="tabular-nums text-text-secondary">{signalCount}</span>
-              {" "}live calls
+              {" "}signals
             </span>
           </div>
         </div>

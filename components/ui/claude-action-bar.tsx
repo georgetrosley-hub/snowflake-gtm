@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { AdaptiveLogo } from "@/components/ui/adaptive-logo";
+import { SnowflakeLogo } from "@/components/ui/snowflake-logo";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
 import { cn } from "@/lib/utils";
@@ -68,7 +68,7 @@ export function ClaudeActionBar({
     <section className={cn("min-w-0 rounded-[28px] border-2 border-accent/30 bg-white/[0.02] p-4 sm:p-6", className)}>
       <div className="flex items-start gap-3">
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-accent/10">
-          <AdaptiveLogo size={14} className="text-accent" />
+          <SnowflakeLogo size={14} className="text-accent" />
         </div>
         <div className="min-w-0 flex-1">
           <p className="text-[13px] font-medium text-text-primary">{title}</p>

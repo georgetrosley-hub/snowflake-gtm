@@ -9,56 +9,60 @@ export const competitorCategories = [
   "vertical",
 ] as const;
 
+/**
+ * Snowflake-relevant alternatives for internal GTM positioning.
+ * claudeDifferentiation → snowflakeDifferentiation for type compatibility.
+ */
 export const competitors: Competitor[] = [
   {
-    id: "knowbe4",
-    name: "KnowBe4",
-    category: "vertical",
-    strengthAreas: ["Phishing sims", "broad adoption", "Kevin Mitnick brand", "large library"],
-    claudeDifferentiation: ["Deepfake & AI threat training", "TikTok-style microlearning", "just-in-time learning on failure", "security culture vs checkbox"],
-    accountRiskLevel: 85,
-    detectedFootprint: "KnowBe4 Security Awareness, simulated phishing",
-  },
-  {
-    id: "cofense",
-    name: "Cofense",
-    category: "vertical",
-    strengthAreas: ["Phishing detection", "reporting", "incident response", "email security"],
-    claudeDifferentiation: ["Deepfake simulations", "engagement-first content", "always-fresh modules", "microlearning on failure"],
-    accountRiskLevel: 78,
-    detectedFootprint: "Cofense PhishMe, Cofense Vision",
-  },
-  {
-    id: "proofpoint",
-    name: "Proofpoint Security Awareness",
-    category: "workflow",
-    strengthAreas: ["Email security bundle", "enterprise footprint", "compliance reporting"],
-    claudeDifferentiation: ["AI-generated threat training", "deepfake defense", "engagement and culture", "short-form content"],
-    accountRiskLevel: 82,
-    detectedFootprint: "Proofpoint Security Awareness, ThreatSim",
-  },
-  {
-    id: "sans",
-    name: "SANS Security Awareness",
-    category: "vertical",
-    strengthAreas: ["Authority brand", "certifications", "enterprise training"],
-    claudeDifferentiation: ["Modern engagement", "deepfake and AI threats", "microlearning", "automation"],
-    accountRiskLevel: 70,
-    detectedFootprint: "SANS Security Awareness",
-  },
-  {
-    id: "mimecast",
-    name: "Mimecast",
+    id: "databricks",
+    name: "Databricks",
     category: "cloud",
-    strengthAreas: ["Email security", "resilience", "integrated stack"],
-    claudeDifferentiation: ["Dedicated awareness experience", "deepfake training", "culture over compliance"],
-    accountRiskLevel: 65,
+    strengthAreas: ["Unified analytics", "ML/AI workspace", "Delta Lake", "large ecosystem"],
+    claudeDifferentiation: ["Governed AI Data Cloud", "Cortex Agents + Intelligence", "multi-model in one perimeter", "Snowflake Postgres + developer workflow"],
+    accountRiskLevel: 75,
+    detectedFootprint: "Databricks Lakehouse, Unity Catalog",
+  },
+  {
+    id: "bigquery",
+    name: "Google BigQuery",
+    category: "cloud",
+    strengthAreas: ["Scale", "ML built-in", "BigQuery Studio", "Google cloud integration"],
+    claudeDifferentiation: ["Cross-cloud", "Horizon Catalog", "Cortex + Snowflake Intelligence", "open data movement"],
+    accountRiskLevel: 70,
+    detectedFootprint: "BigQuery, Looker",
+  },
+  {
+    id: "redshift",
+    name: "Amazon Redshift",
+    category: "cloud",
+    strengthAreas: ["AWS integration", "Redshift ML", "lake and warehouse"],
+    claudeDifferentiation: ["Multi-cloud", "governed AI platform", "Cortex Agents", "Native Apps"],
+    accountRiskLevel: 68,
+    detectedFootprint: "Redshift, S3, SageMaker",
+  },
+  {
+    id: "azure-synapse",
+    name: "Microsoft Azure Synapse",
+    category: "cloud",
+    strengthAreas: ["Azure integration", "fabric", "Copilot integration"],
+    claudeDifferentiation: ["Open table formats", "Cortex multi-model", "developer + app platform", "Observe"],
+    accountRiskLevel: 72,
+    detectedFootprint: "Synapse, Fabric, Azure OpenAI",
+  },
+  {
+    id: "other",
+    name: "Other / build-your-own",
+    category: "vertical",
+    strengthAreas: ["Custom stack", "existing vendor lock-in"],
+    claudeDifferentiation: ["Single platform", "governance", "time to value", "interoperability"],
+    accountRiskLevel: 50,
   },
 ];
 
-export function getCompetitorsByAccount(accountId: string): Competitor[] {
+export function getCompetitorsByAccount(_accountId: string): Competitor[] {
   return competitors.map((c) => ({
     ...c,
-    accountRiskLevel: c.accountRiskLevel,
+    detectedFootprint: c.detectedFootprint,
   }));
 }

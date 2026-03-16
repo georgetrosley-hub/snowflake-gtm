@@ -6,7 +6,7 @@ import { Users, Calendar, Briefcase, Presentation, DollarSign } from "lucide-rea
 import { SectionHeader } from "@/components/ui/section-header";
 import { StreamingContent } from "@/components/ui/streaming-content";
 import { useStreaming } from "@/lib/hooks/use-streaming";
-import { AdaptiveLogo } from "@/components/ui/adaptive-logo";
+import { SnowflakeLogo } from "@/components/ui/snowflake-logo";
 import { cn } from "@/lib/utils";
 import type { Account, Competitor } from "@/types";
 
@@ -164,7 +164,7 @@ export function MeetingPrep({ account, competitors }: MeetingPrepProps) {
             : "border border-surface-border/30 bg-surface-muted/20 text-text-muted/50 cursor-not-allowed"
         )}
       >
-        <AdaptiveLogo size={14} />
+        <SnowflakeLogo size={14} />
         Generate Meeting Prep
       </button>
 
