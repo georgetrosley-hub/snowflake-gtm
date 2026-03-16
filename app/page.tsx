@@ -21,10 +21,11 @@ import { ROICalculator } from "@/components/sections/roi-calculator";
 import { TerritoryEngine } from "@/components/sections/territory-engine";
 import { EnterpriseComparison } from "@/components/sections/enterprise-comparison";
 import { Resume } from "@/components/sections/resume";
+import { WhyGeorge } from "@/components/sections/why-george";
 import { motion, AnimatePresence } from "framer-motion";
 
 function MainContent() {
-  const [activeSection, setActiveSection] = useState<SectionId>("overview");
+  const [activeSection, setActiveSection] = useState<SectionId>("resume");
   const [chatOpen, setChatOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
@@ -74,6 +75,7 @@ function MainContent() {
 
   const sections: Record<SectionId, React.ReactNode> = {
     resume: <Resume />,
+    whyGeorge: <WhyGeorge />,
     overview: (
       <Overview
         account={account}

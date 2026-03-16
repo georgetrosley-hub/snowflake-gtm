@@ -192,6 +192,12 @@ export function Resume() {
         </div>
         <div className="ml-auto flex flex-wrap gap-3">
           <a
+            href={`mailto:${RESUME.contact.email}?subject=Intro%20call%20with%20George%20Trosley`}
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-accent/90"
+          >
+            Schedule a call
+          </a>
+          <a
             href={RESUME.contact.linkedIn}
             target="_blank"
             rel="noopener noreferrer"
@@ -204,9 +210,9 @@ export function Resume() {
             href="https://www.adaptivesecurity.com/demo/security-awareness-training"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-[13px] font-medium text-white transition-colors hover:bg-accent/90"
+            className="inline-flex items-center gap-2 rounded-lg border border-accent/40 bg-transparent px-4 py-2 text-[13px] font-medium text-accent transition-colors hover:bg-accent/10"
           >
-            Book a demo with Adaptive
+            See Adaptive product
             <ExternalLink className="h-3.5 w-3.5" />
           </a>
         </div>

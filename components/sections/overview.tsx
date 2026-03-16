@@ -243,7 +243,7 @@ export function Overview({
             How I&apos;d build pipeline and expansion for Adaptive Security inside {account.name}
           </h2>
           <p className="max-w-3xl text-[14px] leading-relaxed text-text-muted">
-            Security awareness training, deepfake simulations, phishing readiness, and legacy displacement — first wedge, champion path, pilot design, and expansion.
+            Security awareness training, deepfake simulations, phishing readiness, and legacy displacement — first wedge, champion path, pilot design, and expansion. I would also lean into Adaptive&apos;s AI Content Studio to turn this account&apos;s own policies and threats into on-brand, interactive training in minutes.
           </p>
         </div>
       </section>

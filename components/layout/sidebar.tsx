@@ -33,6 +33,7 @@ const sectionGroups = [
     label: "You",
     items: [
       { id: "resume", label: "Resume", icon: UserCircle },
+      { id: "whyGeorge", label: "Why George", icon: Target },
     ],
   },
   {
@@ -116,7 +117,7 @@ function SidebarBody({
                   Adaptive Security
                 </h1>
                 <p className="text-[11px] text-text-muted">
-                  Security Awareness GTM
+                  GTM War Room
                 </p>
               </div>
             )}

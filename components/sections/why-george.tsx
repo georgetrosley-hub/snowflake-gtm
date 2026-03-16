@@ -19,7 +19,7 @@ const ALIGNMENT = [
     icon: Shield,
     title: "You displace KnowBe4 & Proofpoint. So do I.",
     detail:
-      "My resume explicitly calls out legacy vendor displacement of KnowBe4 and Proofpoint. I reframe the conversation from compliance checkbox to measurable risk reduction — exactly how Adaptive wins.",
+      "My resume explicitly calls out legacy vendor displacement of KnowBe4 and Proofpoint. I reframe the conversation from compliance checkbox to measurable risk reduction — the same lens Adaptive uses to compete with legacy awareness vendors.",
   },
   {
     icon: Target,
@@ -32,6 +32,12 @@ const ALIGNMENT = [
     title: "Deepfake & AI threat training isn't a nice-to-have. I sell that urgency.",
     detail:
       "I create executive urgency around emerging threats and board-level security concerns. Selling 'training completions' vs 'risk reduction' is the shift I've made at every security platform — and Adaptive's deepfake training is the wedge.",
+  },
+  {
+    icon: MessageSquare,
+    title: "AI Content Studio fits how I sell product stories.",
+    detail:
+      "Adaptive's AI Content Studio turns policies into high-quality, on-brand training in minutes. I've consistently sold platforms by making complex capabilities simple and concrete for buyers — this is a story I know how to tell.",
   },
   {
     icon: Building2,
@@ -69,7 +75,7 @@ export function WhyGeorge() {
       {/* Hero one-liner */}
       <div className="rounded-2xl border border-accent/25 bg-accent/[0.08] p-5 sm:p-6">
         <p className="text-base font-medium leading-relaxed text-text-primary sm:text-lg">
-          I&apos;ve already sold the playbook you&apos;re building: security awareness and risk reduction that displaces legacy training vendors, into the same regulated enterprises (healthcare, finance, pharma) where Adaptive wins.
+          I&apos;ve already sold into the buyers you&apos;re targeting — CISO, security, GRC and clinical leaders in regulated enterprises — and displaced the same legacy vendors (KnowBe4, Proofpoint) that Adaptive goes up against.
         </p>
         <p className="mt-3 text-[13px] text-text-muted">
           This page is why the fit isn&apos;t a stretch — it&apos;s a shortcut.
@@ -156,15 +162,24 @@ export function WhyGeorge() {
             </p>
           </div>
         </div>
-        <a
-          href="https://www.adaptivesecurity.com/demo/security-awareness-training"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-accent/90"
-        >
-          Book a demo
-          <ExternalLink className="h-4 w-4" />
-        </a>
+        <div className="flex flex-wrap gap-3">
+          <a
+            href="mailto:george.trosley@gmail.com?subject=Intro%20call%20with%20George%20Trosley"
+            className="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-[13px] font-medium text-white transition-colors hover:bg-accent/90"
+          >
+            Schedule a call
+            <ExternalLink className="h-4 w-4" />
+          </a>
+          <a
+            href="https://www.adaptivesecurity.com/demo/security-awareness-training"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-lg border border-accent/40 bg-transparent px-5 py-2.5 text-[13px] font-medium text-accent transition-colors hover:bg-accent/10"
+          >
+            See Adaptive product
+            <ExternalLink className="h-4 w-4" />
+          </a>
+        </div>
       </div>
     </motion.div>
   );
