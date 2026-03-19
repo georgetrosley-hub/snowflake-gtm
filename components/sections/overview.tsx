@@ -150,6 +150,14 @@ export function Overview({
     territoryPriorityAccounts[0].id
   );
   const [activeBriefingWindow, setActiveBriefingWindow] = useState<"24h" | "7d" | "30d" | "12m">("24h");
+  const [briefingOutputTitle, setBriefingOutputTitle] = useState("Account Brief");
+  const [briefingOutput, setBriefingOutput] = useState<{
+    whatChanged: string;
+    whyItMatters: string;
+    snowflakeImplication: string;
+    databricksImplication: string;
+    recommendedAction: string;
+  } | null>(null);
 
   const saveToastRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { showToast } = useToast();
@@ -382,6 +390,69 @@ export function Overview({
     },
   };
   const activeBriefing = briefingByAccount[activeBriefingAccount.id][activeBriefingWindow];
+  const buildAccountBrief = useCallback(() => {
+    setBriefingOutputTitle(`${activeBriefingAccount.name} · ${activeBriefingWindow} Account Brief`);
+    setBriefingOutput({
+      whatChanged: activeBriefing.whatChanged,
+      whyItMatters: activeBriefing.whyItMatters,
+      snowflakeImplication: activeBriefing.snowflakeImplication,
+      databricksImplication: activeBriefing.databricksImplication,
+      recommendedAction: activeBriefing.nextBestMove,
+    });
+    showToast("Account brief generated");
+  }, [activeBriefing, activeBriefingAccount.name, activeBriefingWindow, showToast]);
+
+  const buildTerritoryBrief = useCallback(() => {
+    const windows = briefingByAccount;
+    const allAccounts = territoryPriorityAccounts.map((a) => a.name).join(", ");
+    setBriefingOutputTitle(`Full Territory Brief · ${activeBriefingWindow}`);
+    setBriefingOutput({
+      whatChanged: `Priority-account motion across ${allAccounts} shifted toward clearer sponsor ownership and tighter evaluation criteria in the ${activeBriefingWindow} window.`,
+      whyItMatters: "The territory is moving from discovery to decision framing; this is where evaluation rules and win rates are set.",
+      snowflakeImplication:
+        "Lead with governed execution in high-urgency workflows and keep expansion narrative explicit from the first pilot.",
+      databricksImplication:
+        "Databricks retains default technical momentum where business workflow outcomes are not explicitly tied to the evaluation.",
+      recommendedAction:
+        "Run one weekly executive cadence across Tier 1 accounts: confirm sponsor, lock pilot criteria, and pre-wire next expansion workload.",
+    });
+    void windows;
+    showToast("Full territory brief generated");
+  }, [activeBriefingWindow, territoryPriorityAccounts, briefingByAccount, showToast]);
+
+  const copyNotebookPrompt = useCallback(async () => {
+    const source = briefingOutput ?? {
+      whatChanged: activeBriefing.whatChanged,
+      whyItMatters: activeBriefing.whyItMatters,
+      snowflakeImplication: activeBriefing.snowflakeImplication,
+      databricksImplication: activeBriefing.databricksImplication,
+      recommendedAction: activeBriefing.nextBestMove,
+    };
+    const prompt = [
+      `Territory Briefing`,
+      `Account: ${activeBriefingAccount.name}`,
+      `Window: ${activeBriefingWindow}`,
+      ``,
+      `What changed: ${source.whatChanged}`,
+      `Why it matters: ${source.whyItMatters}`,
+      `Snowflake implication: ${source.snowflakeImplication}`,
+      `Databricks implication: ${source.databricksImplication}`,
+      `Recommended action: ${source.recommendedAction}`,
+      ``,
+      `Rewrite this in executive format with bullet points and keep it under 180 words.`,
+    ].join("\n");
+    try {
+      await navigator.clipboard.writeText(prompt);
+      showToast("NotebookLM prompt copied");
+    } catch {
+      showToast("Copy failed");
+    }
+  }, [activeBriefing, activeBriefingAccount.name, activeBriefingWindow, briefingOutput, showToast]);
+
+  const exportPdf = useCallback(() => {
+    window.print();
+    showToast("Print dialog opened");
+  }, [showToast]);
   const weeklyOperatingPriorities = [
     {
       title: "Secure Tier 1 pilot scope and sponsor alignment",
@@ -643,6 +714,81 @@ export function Overview({
           <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/[0.05] p-3">
             <p className="text-[10px] uppercase tracking-[0.1em] text-emerald-300/90">Next best move</p>
             <p className="mt-1.5 text-[12px] text-text-secondary">{activeBriefing.nextBestMove}</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-6">
+        <SectionHeader
+          title="Territory Briefing Engine"
+          subtitle="Field execution tool for fast, executive-ready account and territory briefings."
+        />
+        <div className="mt-4 flex flex-wrap gap-2">
+          <button
+            type="button"
+            onClick={buildAccountBrief}
+            className="rounded-lg border border-accent/30 bg-accent/[0.08] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent/[0.14]"
+          >
+            Generate Account Brief
+          </button>
+          <button
+            type="button"
+            onClick={buildTerritoryBrief}
+            className="rounded-lg border border-accent/30 bg-accent/[0.08] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent/[0.14]"
+          >
+            Generate Full Territory Brief
+          </button>
+          <button
+            type="button"
+            onClick={copyNotebookPrompt}
+            className="rounded-lg border border-surface-border/60 bg-surface-muted/40 px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-text-secondary transition-colors hover:border-accent/20 hover:text-text-primary"
+          >
+            Copy NotebookLM Prompt
+          </button>
+          <button
+            type="button"
+            onClick={exportPdf}
+            className="rounded-lg border border-surface-border/60 bg-surface-muted/40 px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-text-secondary transition-colors hover:border-accent/20 hover:text-text-primary"
+          >
+            Export PDF
+          </button>
+        </div>
+
+        <div className="mt-4 rounded-xl border border-surface-border/50 bg-surface-muted/30 p-4">
+          <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-text-faint">
+            {briefingOutputTitle}
+          </p>
+          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+            <div className="rounded-lg border border-surface-border/50 bg-surface-elevated/40 p-3">
+              <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">What changed</p>
+              <p className="mt-1 text-[12px] text-text-secondary">
+                {briefingOutput?.whatChanged ?? activeBriefing.whatChanged}
+              </p>
+            </div>
+            <div className="rounded-lg border border-surface-border/50 bg-surface-elevated/40 p-3">
+              <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">Why it matters</p>
+              <p className="mt-1 text-[12px] text-text-secondary">
+                {briefingOutput?.whyItMatters ?? activeBriefing.whyItMatters}
+              </p>
+            </div>
+            <div className="rounded-lg border border-accent/25 bg-accent/[0.06] p-3">
+              <p className="text-[10px] uppercase tracking-[0.1em] text-accent/90">Snowflake implication</p>
+              <p className="mt-1 text-[12px] text-text-secondary">
+                {briefingOutput?.snowflakeImplication ?? activeBriefing.snowflakeImplication}
+              </p>
+            </div>
+            <div className="rounded-lg border border-rose-400/20 bg-rose-400/[0.05] p-3">
+              <p className="text-[10px] uppercase tracking-[0.1em] text-rose-300/90">Databricks implication</p>
+              <p className="mt-1 text-[12px] text-text-secondary">
+                {briefingOutput?.databricksImplication ?? activeBriefing.databricksImplication}
+              </p>
+            </div>
+          </div>
+          <div className="mt-2 rounded-lg border border-emerald-400/20 bg-emerald-400/[0.05] p-3">
+            <p className="text-[10px] uppercase tracking-[0.1em] text-emerald-300/90">Recommended action</p>
+            <p className="mt-1 text-[12px] text-text-secondary">
+              {briefingOutput?.recommendedAction ?? activeBriefing.nextBestMove}
+            </p>
           </div>
         </div>
       </section>
