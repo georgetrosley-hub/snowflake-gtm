@@ -9,6 +9,7 @@ import { Overview } from "@/components/sections/overview";
 
 const ORDERED_SECTIONS: ReadonlyArray<{ sectionId: SectionId; anchorId: string }> = [
   { sectionId: "territoryPriorities", anchorId: "territory-priorities" },
+  { sectionId: "liveDiscoveryLab", anchorId: "live-discovery-lab" },
   { sectionId: "dailyBriefing", anchorId: "daily-account-briefing" },
   { sectionId: "operatingPriorities", anchorId: "operating-priorities" },
   { sectionId: "accountDossiers", anchorId: "account-dossiers" },

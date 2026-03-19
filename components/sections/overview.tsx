@@ -158,6 +158,168 @@ export function Overview({
     territoryPriorityAccounts.find((p) => p.id === account.id)?.id ??
     territoryPriorityAccounts[0].id;
 
+  type DiscoveryScenarioId =
+    | "single-team-usage"
+    | "databricks-stronghold"
+    | "tool-sprawl"
+    | "flat-consumption"
+    | "ai-pressure"
+    | "shadow-it"
+    | "executive-skeptic"
+    | "fragmented-enterprise"
+    | "everything-fine"
+    | "fifteen-minute-call";
+
+  type DiscoveryPersonaId =
+    | "vp-executive"
+    | "cdo-data-leader"
+    | "head-data-engineering"
+    | "analytics-leader"
+    | "ml-product-data-science-leader"
+    | "finance-cost-stakeholder";
+
+  type DiscoverySignalId =
+    | "snowflake-one-team"
+    | "databricks-strong-in-ml"
+    | "tool-sprawl"
+    | "governance-pain"
+    | "shadow-it"
+    | "flat-consumption"
+    | "ai-pressure"
+    | "executive-cost-concern"
+    | "fragmented-ownership"
+    | "adjacent-teams-not-on-snowflake";
+
+  type DiscoveryLabDraft = {
+    scenarioId: DiscoveryScenarioId;
+    personaId: DiscoveryPersonaId;
+    signalIds: DiscoverySignalId[];
+    liveNotes: string;
+  };
+
+  type DiscoveryLabOutput = {
+    recommendedOpeningAngle: string;
+    coreDiscoveryQuestions: string[];
+    likelyFollowUpQuestions: string[];
+    whatImListeningFor: string[];
+    whatIHeard: string[];
+    whatItLikelyMeans: string;
+    expansionAngle: string;
+    whySnowflakeFits: string[];
+    nextBestMove: string;
+    likelyStakeholdersToInvolveNext: string[];
+  };
+
+  type WeeklyBriefOutput = {
+    whatChanged: string;
+    whyItMatters: string;
+    snowflakeImplication: string;
+    databricksImplication: string;
+    recommendedAction: string;
+  };
+
+  type ExecutionNextItem = {
+    title: string;
+    whyNow: string;
+    expectedOutcome: string;
+  };
+
+  const discoveryScenarioOptions: Array<{ id: DiscoveryScenarioId; label: string }> = [
+    { id: "single-team-usage", label: "Single Team Usage" },
+    { id: "databricks-stronghold", label: "Databricks Stronghold" },
+    { id: "tool-sprawl", label: "Tool Sprawl" },
+    { id: "flat-consumption", label: "Flat Consumption" },
+    { id: "ai-pressure", label: "AI Pressure" },
+    { id: "shadow-it", label: "Shadow IT" },
+    { id: "executive-skeptic", label: "Executive Skeptic" },
+    { id: "fragmented-enterprise", label: "Fragmented Enterprise" },
+    { id: "everything-fine", label: "Everything's Fine" },
+    { id: "fifteen-minute-call", label: "15-Minute Call" },
+  ];
+
+  const discoveryPersonaOptions: Array<{ id: DiscoveryPersonaId; label: string }> = [
+    { id: "vp-executive", label: "VP / Executive" },
+    { id: "cdo-data-leader", label: "CDO / Data Leader" },
+    { id: "head-data-engineering", label: "Head of Data Engineering" },
+    { id: "analytics-leader", label: "Analytics Leader" },
+    { id: "ml-product-data-science-leader", label: "ML / Product / Data Science Leader" },
+    { id: "finance-cost-stakeholder", label: "Finance / Cost Stakeholder" },
+  ];
+
+  const discoverySignalOptions: Array<{ id: DiscoverySignalId; label: string }> = [
+    { id: "snowflake-one-team", label: "Snowflake isolated to one team" },
+    { id: "databricks-strong-in-ml", label: "Databricks strong in ML" },
+    { id: "tool-sprawl", label: "Tool sprawl" },
+    { id: "governance-pain", label: "Governance pain" },
+    { id: "shadow-it", label: "Shadow IT" },
+    { id: "flat-consumption", label: "Flat consumption" },
+    { id: "ai-pressure", label: "AI pressure" },
+    { id: "executive-cost-concern", label: "Executive cost concern" },
+    { id: "fragmented-ownership", label: "Fragmented ownership" },
+    { id: "adjacent-teams-not-on-snowflake", label: "Adjacent teams not yet on Snowflake" },
+  ];
+
+  const defaultDiscoveryDraft: DiscoveryLabDraft = {
+    scenarioId: "single-team-usage",
+    personaId: "vp-executive",
+    signalIds: [],
+    liveNotes: "",
+  };
+
+  const [discoveryDraftByAccountId, setDiscoveryDraftByAccountId] = useState<
+    Partial<Record<PriorityAccount["id"], DiscoveryLabDraft>>
+  >({});
+  const [discoveryPOVAddedByAccountId, setDiscoveryPOVAddedByAccountId] = useState<
+    Partial<Record<PriorityAccount["id"], DiscoveryLabOutput>>
+  >({});
+  const [discoveryWeeklyAddedByAccountId, setDiscoveryWeeklyAddedByAccountId] = useState<
+    Partial<
+      Record<
+        PriorityAccount["id"],
+        {
+          briefOutput: WeeklyBriefOutput;
+          executionNextItems: ExecutionNextItem[];
+          appliedAt: string;
+        }
+      >
+    >
+  >({});
+  const [discoveryGeneratedByAccountId, setDiscoveryGeneratedByAccountId] = useState<
+    Partial<
+      Record<
+        PriorityAccount["id"],
+        {
+          followUpSummary: string | null;
+          nextStepEmail: string | null;
+        }
+      >
+    >
+  >({});
+
+  const discoveryDraft = discoveryDraftByAccountId[selectedAccountId] ?? defaultDiscoveryDraft;
+  const discoveryPOVAdded = discoveryPOVAddedByAccountId[selectedAccountId] ?? null;
+  const discoveryWeeklyAdded = discoveryWeeklyAddedByAccountId[selectedAccountId] ?? null;
+  const discoveryGenerated = discoveryGeneratedByAccountId[selectedAccountId] ?? { followUpSummary: null, nextStepEmail: null };
+
+  const updateDiscoveryDraft = useCallback(
+    (patch: Partial<DiscoveryLabDraft>) => {
+      setDiscoveryDraftByAccountId((prev) => ({
+        ...prev,
+        [selectedAccountId]: {
+          ...(prev[selectedAccountId] ?? defaultDiscoveryDraft),
+          ...patch,
+        },
+      }));
+    },
+    [selectedAccountId]
+  );
+
+  const toggleDiscoverySignal = (signalId: DiscoverySignalId) => {
+    const current = discoveryDraft.signalIds;
+    const next = current.includes(signalId) ? current.filter((s) => s !== signalId) : [...current, signalId];
+    updateDiscoveryDraft({ signalIds: next });
+  };
+
   useEffect(() => {
     // Clear derived briefing content when selected account changes
     // so the panel reflects the current global account context.
@@ -508,6 +670,469 @@ export function Overview({
     </div>
   );
 
+  const discoveryLabOutput = useMemo<DiscoveryLabOutput>(() => {
+    const has = (id: DiscoverySignalId) => discoveryDraft.signalIds.includes(id);
+
+    const personaFrame: Record<DiscoveryPersonaId, string> = {
+      "vp-executive":
+        "Executive framing: confirm the decision path, success metrics, and who owns the rollout outcome",
+      "cdo-data-leader":
+        "Data leader framing: validate the data operating-model assumptions behind expansion",
+      "head-data-engineering":
+        "Engineering framing: understand workflow ownership, integration boundaries, and rollout mechanics",
+      "analytics-leader":
+        "Analytics framing: identify where adoption is stalled and how metrics stay trusted across teams",
+      "ml-product-data-science-leader":
+        "ML framing: separate model work from production-ready data governance and rollout risk",
+      "finance-cost-stakeholder":
+        "Finance framing: make cost and value gates explicit so expansion is approvable and repeatable",
+    };
+
+    const scenarioLens: Record<DiscoveryScenarioId, string> = {
+      "single-team-usage":
+        "treat the current Snowflake pocket as the template, then expand the exact same governance + workload pattern into one adjacent use case",
+      "databricks-stronghold":
+        "assume Databricks is strongest in ML/engineering, and position Snowflake as the governed production + shared layer that prevents fragmentation",
+      "tool-sprawl":
+        "treat tool sprawl as an operating-model failure (not a tooling debate) and focus on consolidation criteria and rollout guardrails",
+      "flat-consumption":
+        "assume value is steady but not widening; focus discovery on what turns usage into adoption and repeatable expansion",
+      "ai-pressure":
+        "start from urgency and validate the governance, ownership, and success metrics required to scale AI workflows safely",
+      "shadow-it":
+        "assume teams bypass standard controls; discovery should surface the workarounds and how you want risk handled at scale",
+      "executive-skeptic":
+        "assume leadership needs proof; anchor on a narrow first wedge with measurable outcomes and clear sponsor ownership",
+      "fragmented-enterprise":
+        "assume ownership is split; discovery should drive one agreed governance and decision path across domains",
+      "everything-fine":
+        "assume comfort today; discovery should find hidden friction (time-to-decision, governance acceptance, or cost) that matters next quarter",
+      "fifteen-minute-call":
+        "optimize for speed: in one short call, name the bottleneck, the decision maker, and the smallest next action that moves expansion forward",
+    };
+
+    const selectedSignalNames = discoveryDraft.signalIds
+      .map((id) => discoverySignalOptions.find((s) => s.id === id)?.label)
+      .filter((v): v is string => Boolean(v));
+
+    const signalWhatIHeard: Array<{ id: DiscoverySignalId; bullet: string }> = [
+      {
+        id: "snowflake-one-team",
+        bullet:
+          "Snowflake is delivering value, but the footprint is still confined to one org pocket; expansion is constrained by ownership boundaries",
+      },
+      {
+        id: "databricks-strong-in-ml",
+        bullet:
+          "Databricks is the default path for ML/engineering work, and Snowflake is treated as a separate system instead of the governed shared layer",
+      },
+      {
+        id: "tool-sprawl",
+        bullet:
+          "Teams are mixing tools to work around friction; this creates inconsistent governance, duplicated work, and uneven metrics trust",
+      },
+      {
+        id: "governance-pain",
+        bullet:
+          "Governance review and approvals slow deployment; teams default to incumbents when acceptance criteria are unclear",
+      },
+      {
+        id: "shadow-it",
+        bullet:
+          "Some teams are bypassing standard controls; confidence drops when wider rollout depends on tribal knowledge rather than repeatable guardrails",
+      },
+      {
+        id: "flat-consumption",
+        bullet: "Consumption is steady but not widening into new workloads; the account needs a repeatable path to adoption, not another platform evaluation",
+      },
+      {
+        id: "ai-pressure",
+        bullet:
+          "AI/modernization urgency is pushing for speed, but without a clear control plan the rollout risks become the bottleneck",
+      },
+      {
+        id: "executive-cost-concern",
+        bullet: "Executives are asking for consolidation and cost visibility; any pilot must tie to measurable time/cost/risk improvements",
+      },
+      {
+        id: "fragmented-ownership",
+        bullet: "Ownership is fragmented across business, platform, and governance; end-to-end accountability is unclear, so expansion stays local",
+      },
+      {
+        id: "adjacent-teams-not-on-snowflake",
+        bullet: "Adjacent teams are not yet on Snowflake; the blocker is rarely capability, it's a missing rollout playbook and operating agreement",
+      },
+    ];
+
+    const whatIHeardFromSignals = signalWhatIHeard.filter((s) => has(s.id)).map((s) => s.bullet);
+
+    const defaultWhatIHeard = [
+      `For ${activeDossierAccount.name}, there is clear interest in expansion, but the decision path depends on aligning governance acceptance, workload ownership, and sponsor risk tolerance`,
+      "Current evaluation criteria appear to shift from feature comparison to production readiness and repeatable rollout mechanics",
+      "Databricks influence likely remains strong where teams default to existing ML workflows, so the first wedge must define where Snowflake owns governed execution",
+      `Expansion constraints are consistent with ${activeDossierAccount.pressure.toLowerCase()}; without operating-model clarity, Snowflake stays in one pocket`,
+    ];
+
+    const whatIHeard =
+      whatIHeardFromSignals.length > 0 ? whatIHeardFromSignals.slice(0, 4) : defaultWhatIHeard.slice(0, 4);
+
+    const personaCostGate =
+      discoveryDraft.personaId === "finance-cost-stakeholder"
+        ? "Make cost/value gates explicit so approval is predictable"
+        : "Make success metrics explicit so approval is defensible";
+
+    const recommendedOpeningAngle = `${personaFrame[discoveryDraft.personaId]}; ${scenarioLens[discoveryDraft.scenarioId]}. ${personaCostGate}.`;
+
+    const coreDiscoveryQuestions: string[] = (() => {
+      const callTight =
+        discoveryDraft.scenarioId === "fifteen-minute-call"
+          ? "In the next 15 minutes, what is the one decision you need to make about Snowflake expansion, and who owns it?"
+          : "What is the primary workflow you are trying to improve, and what would success look like in 90 days?";
+
+      const governanceOrOwnershipQuestion =
+        has("governance-pain") || has("fragmented-ownership") || has("shadow-it")
+          ? "Where do governance approvals, ownership handoffs, or risk acceptance slow rollout, and what would acceptable risk mean for a wider expansion?"
+          : "How is ownership split between business, platform, and governance when you roll out a new workload?";
+
+      const expansionCriteria =
+        has("executive-cost-concern") || discoveryDraft.personaId === "finance-cost-stakeholder"
+          ? "What would make this approvable in a budget conversation: one cost driver to improve, one measurable workflow outcome, and one timeline checkpoint?"
+          : "What would make it easy to widen Snowflake adoption beyond the current pocket: a specific workload win, a governance change, or an operating-model agreement?";
+
+      return [callTight, governanceOrOwnershipQuestion, expansionCriteria];
+    })();
+
+    const likelyFollowUpQuestions = (() => {
+      const base = [
+        "Who decides the rollout criteria (and who must be comfortable with risk) for the first governed workload?",
+        "What is Databricks doing better today for this account, and where do you hit limits when moving from prototype to production?",
+        "Where does tool choice break consistency (data contracts, governance rules, or metric definitions) across teams?",
+        "If we replicate the first win, what needs to change in ownership, guardrails, or workflow templates?",
+        "What internal checkpoint are you already running (exec review, security review, budget cycle) that we should align to?",
+      ];
+
+      const signalBased = [
+        has("snowflake-one-team") ? "What specifically prevents the second team from using the same Snowflake pattern today?" : null,
+        has("databricks-strong-in-ml")
+          ? "Where should Databricks remain sticky (ML ideation), and where do you want Snowflake to own governed production access?"
+          : null,
+        has("tool-sprawl") ? "Which tools are causing duplication, and what consolidation criteria would eliminate that friction?" : null,
+        has("shadow-it") ? "Where are the current workarounds happening, and what controls would you require for controlled scale?" : null,
+        has("executive-cost-concern") ? "Which cost drivers matter most for approval (run cost, engineering time, rework, or compliance effort)?" : null,
+        has("ai-pressure") ? "What is the minimum governance baseline required to scale AI workflows safely?" : null,
+        has("adjacent-teams-not-on-snowflake")
+          ? "Which adjacent teams should be in the next rollout, and what would they need to see to join without disruption?"
+          : null,
+      ].filter((q): q is string => Boolean(q));
+
+      return [...signalBased, ...base].slice(0, 7);
+    })();
+
+    const whatImListeningFor = (() => {
+      const base = [
+        "Where governance decisions are made, and what acceptance criteria actually are",
+        "Whether the rollout bottleneck is ownership alignment or risk acceptance (not tooling capability)",
+        "Whether Databricks strength is ideation vs governed production, and how that shows up in evaluation",
+        "Whether tool sprawl is a symptom of unclear operating agreements",
+        `How ${activeDossierAccount.name} defines "good" in the first wedge (speed, trust, compliance, and business outcome)`,
+        "Which adjacent teams are ready to adopt once one governed workload proves measurable value",
+      ];
+
+      const signalAdditions: string[] = [];
+      if (has("shadow-it")) signalAdditions.push("Evidence of bypassed controls and how teams manage risk today");
+      if (has("governance-pain")) signalAdditions.push("Approval cycles: who is involved, how long they take, and what blocks sign-off");
+      if (has("executive-cost-concern")) signalAdditions.push("Cost framing: which spend/effort drivers are on the executive agenda");
+      if (has("fragmented-ownership")) signalAdditions.push("Where end-to-end accountability breaks and who should own the expansion outcome");
+      if (has("flat-consumption")) signalAdditions.push("What would turn steady usage into adoption (new workload triggers + sponsor demand)");
+
+      return [...signalAdditions, ...base].slice(0, 8);
+    })();
+
+    const whatItLikelyMeans = (() => {
+      if (has("fragmented-ownership") || has("governance-pain") || has("shadow-it")) {
+        return "This looks like an operating-model constraint: decision rights and governance acceptance are not standardized, so expansion stays local and teams route around the control narrative.";
+      }
+      if (has("databricks-strong-in-ml")) {
+        return "Databricks is likely setting the default evaluation path for ML workflows; if governed production criteria are not defined early, Snowflake will remain a side system instead of the shared layer.";
+      }
+      if (has("executive-cost-concern")) {
+        return "Buying criteria are likely tightening around consolidation and measurable value; without explicit cost/value gates, broader rollout will stall after pilot enthusiasm.";
+      }
+      return "The constraint here is unlikely to be capability; it is alignment. Expansion depends on connecting governance, workload ownership, and sponsor risk tolerance into one repeatable rollout path.";
+    })();
+
+    const expansionAngle = (() => {
+      const signalsClause = selectedSignalNames.length
+        ? `Discovery surfaced: ${selectedSignalNames.slice(0, 3).join("; ")}.`
+        : "Discovery is pointing to rollout mechanics and sponsor-aligned governance as the constraint.";
+
+      return `Land a governed first motion around ${activeDossierAccount.likelyLand}, then expand by replicating the same workflow + governance + ownership pattern into adjacent teams. ${signalsClause} ${activeDossierAccount.expansionPath}.`;
+    })();
+
+    const whySnowflakeFits: string[] = (() => {
+      const bullets: string[] = [];
+      bullets.push("Enterprise governance and auditability by default, so approval is repeatable (not tribal knowledge)");
+      bullets.push("A shared governed layer that reduces cross-team coordination risk when expanding beyond the initial pocket");
+      if (has("shadow-it")) bullets.push("A controlled on-ramp for teams that currently bypass controls, with guardrails that scale");
+      if (has("governance-pain")) bullets.push("Clear governance acceptance criteria that shorten approval cycles and align stakeholders early");
+      if (has("databricks-strong-in-ml")) bullets.push("Databricks can remain the ideation path, while Snowflake owns production-ready data access and shared governance");
+      if (has("executive-cost-concern")) bullets.push("Consolidation logic that makes cost and workload ownership visible to executives and finance");
+      if (!has("databricks-strong-in-ml")) bullets.push("Workload-specific first land that ties capability to measurable outcomes quickly");
+      return bullets.slice(0, 7);
+    })();
+
+    const nextBestMove = (() => {
+      const firstStep =
+        discoveryDraft.scenarioId === "fifteen-minute-call"
+          ? "Use the next 15-minute call to name the rollout bottleneck, confirm the decision maker, and lock one smallest next action toward a 90-day pilot."
+          : "Anchor the conversation on the discovery opening angle, then capture success criteria and the governance/ownership path for one first governed workload.";
+
+      const signalStep =
+        has("governance-pain") || has("shadow-it")
+          ? "Bring risk/compliance in early so acceptance criteria are concrete before you widen scope."
+          : "Lock one owner for the end-to-end workload outcome so expansion does not stay local.";
+
+      const partnerStep = has("databricks-strong-in-ml")
+        ? "Clarify where Databricks remains sticky (ML work) and where Snowflake must own governed production access."
+        : "Confirm what the next adjacent team needs to join without disruption, and define the rollout trigger.";
+
+      return `${firstStep} ${signalStep} ${partnerStep}`;
+    })();
+
+    const likelyStakeholdersToInvolveNext = (() => {
+      const baseStakeholders = activeDossierAccount.stakeholderStrategy;
+
+      const picks: string[] = [];
+
+      const personaExtra: Record<DiscoveryPersonaId, string[]> = {
+        "vp-executive": ["Executive data/platform owner who can sponsor the expansion outcome"],
+        "cdo-data-leader": ["CDO/Data leader responsible for the data operating model"],
+        "head-data-engineering": ["Head of Data Engineering who owns workflow rollout and integration boundaries"],
+        "analytics-leader": ["Analytics leader accountable for metric trust and cross-team adoption"],
+        "ml-product-data-science-leader": ["ML / Data Science leader who owns ML-to-production readiness"],
+        "finance-cost-stakeholder": ["Finance / cost stakeholder who approves consolidation based on measurable value gates"],
+      };
+
+      picks.push(...personaExtra[discoveryDraft.personaId].slice(0, 1));
+
+      const signalExtras: string[] = [];
+      if (has("governance-pain") || has("shadow-it")) signalExtras.push("Risk & compliance leadership to define acceptance criteria early");
+      if (has("databricks-strong-in-ml")) signalExtras.push("ML workflow owner who can align production governance across systems");
+      if (has("adjacent-teams-not-on-snowflake")) signalExtras.push("Existing Snowflake champions who can open adjacent team conversations");
+
+      picks.push(...signalExtras.slice(0, 2));
+
+      for (const s of baseStakeholders) {
+        if (picks.length >= 5) break;
+        const shortName = s.split(":")[0];
+        if (!picks.some((p) => p.toLowerCase().includes(shortName.toLowerCase()))) {
+          picks.push(s);
+        }
+      }
+
+      return picks.slice(0, 5);
+    })();
+
+    return {
+      recommendedOpeningAngle,
+      coreDiscoveryQuestions,
+      likelyFollowUpQuestions,
+      whatImListeningFor,
+      whatIHeard,
+      whatItLikelyMeans,
+      expansionAngle,
+      whySnowflakeFits,
+      nextBestMove,
+      likelyStakeholdersToInvolveNext,
+    };
+  }, [activeDossierAccount, discoveryDraft]);
+
+  const discoveryWeeklyBriefOutput = useMemo<WeeklyBriefOutput>(() => {
+    const topHeard = discoveryLabOutput.whatIHeard.slice(0, 2).join(" ");
+    const snowflakeImplication = discoveryLabOutput.whySnowflakeFits.slice(0, 3).join("; ");
+
+    const databricksImplication = discoveryDraft.signalIds.includes("databricks-strong-in-ml")
+      ? "Databricks will likely remain the default ideation path unless production governance criteria are defined early and consistently across the rollout playbook."
+      : "If evaluation remains anchored in tooling preferences, Databricks influence will persist; tie the conversation to production readiness and shared governance so the expansion decision can widen beyond a prototype.";
+
+    const whatChanged = `Discovery Lab surfaced: ${topHeard} Next steps shift toward locking one governed first workload, making governance/ownership acceptance explicit, and widening expansion through one repeatable pattern.`;
+
+    const whyItMatters = `${discoveryLabOutput.whatItLikelyMeans} This is the window to turn discovery into a decision path before criteria harden.`;
+
+    const recommendedAction = discoveryLabOutput.nextBestMove;
+
+    return {
+      whatChanged,
+      whyItMatters,
+      snowflakeImplication,
+      databricksImplication,
+      recommendedAction,
+    };
+  }, [discoveryDraft.signalIds, discoveryLabOutput]);
+
+  const discoveryExecutionNextItems = useMemo<ExecutionNextItem[]>(() => {
+    const accountName = activeDossierAccount.name;
+    const scenario = discoveryDraft.scenarioId.replace(/-/g, " ");
+
+    const first: ExecutionNextItem = {
+      title: `Run governed discovery on ${accountName}'s first wedge (${scenario})`,
+      whyNow: "This moves the account from evaluation into an operational decision path, so expansion can widen beyond the current pocket.",
+      expectedOutcome: "A 90-day pilot charter with one owner, explicit governance acceptance criteria, and an adjacent team rollout trigger.",
+    };
+
+    const second: ExecutionNextItem = {
+      title: "Lock the governance/ownership path for the first workload",
+      whyNow: "Repeatable adoption depends on a single decision path and risk acceptance model that stakeholders can sponsor.",
+      expectedOutcome: "A shared rollout agreement that prevents teams from routing around controls and hardens success metrics for expansion.",
+    };
+
+    if (discoveryDraft.signalIds.includes("executive-cost-concern") || discoveryDraft.personaId === "finance-cost-stakeholder") {
+      return [
+        first,
+        {
+          title: "Tie the first wedge to measurable cost/value gates",
+          whyNow: "Finance approval typically follows explicit consolidation logic and predictable value proof points.",
+          expectedOutcome: "A short executive-ready value narrative: one cost driver, one time/risk outcome, and one checkpoint for approval.",
+        },
+      ];
+    }
+
+    if (discoveryDraft.signalIds.includes("shadow-it") || discoveryDraft.signalIds.includes("governance-pain")) {
+      return [
+        first,
+        {
+          title: "Bring risk/compliance in early to define acceptance criteria",
+          whyNow: "Approval cycles are the bottleneck for widening scope; acceptance criteria must be concrete before rollout.",
+          expectedOutcome: "Faster approvals for the pilot workload and guardrails that scale to adjacent teams.",
+        },
+      ];
+    }
+
+    return [first, second];
+  }, [activeDossierAccount.name, discoveryDraft.personaId, discoveryDraft.scenarioId, discoveryDraft.signalIds]);
+
+  const handleAddToAccountDossier = useCallback(() => {
+    const nowIso = new Date().toISOString();
+    setDiscoveryPOVAddedByAccountId((prev) => ({
+      ...prev,
+      [selectedAccountId]: discoveryLabOutput,
+    }));
+    setDossierLastUpdated(nowIso);
+    setActiveDossierTab("Snowflake POV");
+
+    setDossierFocus(true);
+    if (dossierFocusTimeoutRef.current) {
+      window.clearTimeout(dossierFocusTimeoutRef.current);
+    }
+    dossierFocusTimeoutRef.current = window.setTimeout(() => {
+      setDossierFocus(false);
+    }, 650);
+
+    document.getElementById("account-dossiers")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [dossierFocusTimeoutRef, discoveryLabOutput, selectedAccountId]);
+
+  const handleAddToWeeklyTerritoryBrief = useCallback(() => {
+    const nowIso = new Date().toISOString();
+    setDiscoveryWeeklyAddedByAccountId((prev) => ({
+      ...prev,
+      [selectedAccountId]: {
+        briefOutput: discoveryWeeklyBriefOutput,
+        executionNextItems: discoveryExecutionNextItems,
+        appliedAt: nowIso,
+      },
+    }));
+
+    setBriefingOutputTitleOverride(`${activeBriefingAccount.name} · ${activeBriefingWindow} · Live Discovery Lab`);
+    setBriefingOutput(discoveryWeeklyBriefOutput);
+    setTerritoryLastUpdated(nowIso);
+
+    document.getElementById("briefing-engine")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [
+    activeBriefingAccount.name,
+    activeBriefingWindow,
+    discoveryExecutionNextItems,
+    discoveryWeeklyBriefOutput,
+    selectedAccountId,
+  ]);
+
+  const copyText = useCallback(async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      // Clipboard may be unavailable in some environments.
+    }
+  }, []);
+
+  const handleGenerateFollowUpSummary = useCallback(() => {
+    const noteBlock = discoveryDraft.liveNotes.trim()
+      ? `\n\nLive notes:\n${discoveryDraft.liveNotes.trim()}`
+      : "";
+
+    const summary = [
+      `Follow-up summary · ${activeDossierAccount.name}`,
+      ``,
+      `What I heard:`,
+      ...discoveryLabOutput.whatIHeard.map((b) => `- ${b}`),
+      ``,
+      `What it likely means: ${discoveryLabOutput.whatItLikelyMeans}`,
+      ``,
+      `Expansion angle: ${discoveryLabOutput.expansionAngle}`,
+      ``,
+      `Next best move: ${discoveryLabOutput.nextBestMove}`,
+      noteBlock,
+      ``,
+      `Likely stakeholders to involve next:`,
+      ...discoveryLabOutput.likelyStakeholdersToInvolveNext.map((s) => `- ${s}`),
+    ].join("\n");
+
+    setDiscoveryGeneratedByAccountId((prev) => ({
+      ...prev,
+      [selectedAccountId]: {
+        followUpSummary: summary,
+        nextStepEmail: prev[selectedAccountId]?.nextStepEmail ?? null,
+      },
+    }));
+  }, [activeDossierAccount.name, discoveryDraft.liveNotes, discoveryLabOutput, selectedAccountId]);
+
+  const handleGenerateNextStepEmail = useCallback(() => {
+    const notesLine = discoveryDraft.liveNotes.trim()
+      ? `\n\nAdditional notes from the session:\n${discoveryDraft.liveNotes.trim()}`
+      : "";
+
+    const stakeholdersLine = discoveryLabOutput.likelyStakeholdersToInvolveNext.slice(0, 3).join(", ");
+
+    const email = [
+      `Subject: Next steps on Snowflake expansion for ${activeDossierAccount.name}`,
+      ``,
+      `Hi team,`,
+      ``,
+      `Thanks for the conversation. Below is what I heard, and the execution path I propose to move from discovery to a decision:`,
+      ``,
+      `- What I heard: ${discoveryLabOutput.whatIHeard.slice(0, 2).join(" ")}`,
+      `- What it likely means: ${discoveryLabOutput.whatItLikelyMeans}`,
+      `- Expansion angle: ${discoveryLabOutput.expansionAngle}`,
+      ``,
+      `Proposed next step:`,
+      `${discoveryLabOutput.nextBestMove}`,
+      ``,
+      `Stakeholders to include in the next working session: ${stakeholdersLine}.`,
+      notesLine,
+      ``,
+      `If you agree, my next request is to confirm the owner for the first governed workload and align on the governance acceptance criteria we need before widening scope.`,
+      ``,
+      `Best,`,
+      `[Your name]`,
+    ].join("\n");
+
+    setDiscoveryGeneratedByAccountId((prev) => ({
+      ...prev,
+      [selectedAccountId]: {
+        followUpSummary: prev[selectedAccountId]?.followUpSummary ?? null,
+        nextStepEmail: email,
+      },
+    }));
+  }, [activeDossierAccount.name, discoveryDraft.liveNotes, discoveryLabOutput, selectedAccountId]);
+
   useEffect(() => {
     try {
       const raw = localStorage.getItem("snowflake-territory-intelligence-state");
@@ -518,10 +1143,35 @@ export function Overview({
         territoryLastUpdated?: string;
         briefingOutputTitle?: string;
         briefingOutput?: typeof briefingOutput;
+        discoveryDraftByAccountId?: Partial<Record<PriorityAccount["id"], DiscoveryLabDraft>>;
+        discoveryPOVAddedByAccountId?: Partial<Record<PriorityAccount["id"], DiscoveryLabOutput>>;
+        discoveryWeeklyAddedByAccountId?: Partial<
+          Record<
+            PriorityAccount["id"],
+            {
+              briefOutput: WeeklyBriefOutput;
+              executionNextItems: ExecutionNextItem[];
+              appliedAt: string;
+            }
+          >
+        >;
+        discoveryGeneratedByAccountId?: Partial<
+          Record<
+            PriorityAccount["id"],
+            {
+              followUpSummary: string | null;
+              nextStepEmail: string | null;
+            }
+          >
+        >;
       };
       if (parsed.accountLastUpdated) setAccountLastUpdated(parsed.accountLastUpdated);
       if (parsed.dossierLastUpdated) setDossierLastUpdated(parsed.dossierLastUpdated);
       if (parsed.territoryLastUpdated) setTerritoryLastUpdated(parsed.territoryLastUpdated);
+      if (parsed.discoveryDraftByAccountId) setDiscoveryDraftByAccountId(parsed.discoveryDraftByAccountId);
+      if (parsed.discoveryPOVAddedByAccountId) setDiscoveryPOVAddedByAccountId(parsed.discoveryPOVAddedByAccountId);
+      if (parsed.discoveryWeeklyAddedByAccountId) setDiscoveryWeeklyAddedByAccountId(parsed.discoveryWeeklyAddedByAccountId);
+      if (parsed.discoveryGeneratedByAccountId) setDiscoveryGeneratedByAccountId(parsed.discoveryGeneratedByAccountId);
     } catch {
       // Keep defaults if persisted state cannot be parsed.
     }
@@ -535,12 +1185,24 @@ export function Overview({
           accountLastUpdated,
           dossierLastUpdated,
           territoryLastUpdated,
+          discoveryDraftByAccountId,
+          discoveryPOVAddedByAccountId,
+          discoveryWeeklyAddedByAccountId,
+          discoveryGeneratedByAccountId,
         })
       );
     } catch {
       // Ignore persistence errors.
     }
-  }, [accountLastUpdated, dossierLastUpdated, territoryLastUpdated]);
+  }, [
+    accountLastUpdated,
+    dossierLastUpdated,
+    territoryLastUpdated,
+    discoveryDraftByAccountId,
+    discoveryPOVAddedByAccountId,
+    discoveryWeeklyAddedByAccountId,
+    discoveryGeneratedByAccountId,
+  ]);
 
   const refreshAccount = useCallback(
     async (accountId: PriorityAccount["id"]) => {
@@ -770,6 +1432,272 @@ export function Overview({
         </div>
       </section>
 
+      {/* SECTION 3: LIVE DISCOVERY LAB */}
+      <section
+        id="live-discovery-lab"
+        className="scroll-mt-24 rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-6"
+      >
+        <SectionHeader
+          title="Live Discovery Lab"
+          subtitle="Preparation -> Discovery -> POV -> Action. This is the call guide I use to prep for discovery on the selected account."
+        />
+
+        <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <div className="space-y-4">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">Scenario Selection</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {discoveryScenarioOptions.map((s) => (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => updateDiscoveryDraft({ scenarioId: s.id })}
+                    className={`rounded-full px-3 py-1.5 text-[11px] font-medium transition-colors ${
+                      discoveryDraft.scenarioId === s.id
+                        ? "border border-accent/30 bg-accent/[0.10] text-accent"
+                        : "border border-surface-border/50 bg-surface-muted/40 text-text-muted hover:border-accent/20 hover:text-text-secondary"
+                    }`}
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">Persona Selection</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {discoveryPersonaOptions.map((p) => (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => updateDiscoveryDraft({ personaId: p.id })}
+                    className={`rounded-full px-3 py-1.5 text-[11px] font-medium transition-colors ${
+                      discoveryDraft.personaId === p.id
+                        ? "border border-accent/30 bg-accent/[0.10] text-accent"
+                        : "border border-surface-border/50 bg-surface-muted/40 text-text-muted hover:border-accent/20 hover:text-text-secondary"
+                    }`}
+                  >
+                    {p.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">Signal Capture</p>
+              <p className="mt-1.5 text-[12px] text-text-secondary">
+                Select what best matches the account behavior. These choices directly shape the POV builder below.
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {discoverySignalOptions.map((sig) => {
+                  const selected = discoveryDraft.signalIds.includes(sig.id);
+                  return (
+                    <button
+                      key={sig.id}
+                      type="button"
+                      onClick={() => toggleDiscoverySignal(sig.id)}
+                      className={`rounded-full border px-3 py-1.5 text-[11px] font-medium transition-colors ${
+                        selected
+                          ? "border-accent/30 bg-accent/[0.10] text-accent"
+                          : "border-surface-border/50 bg-surface-muted/40 text-text-muted hover:border-accent/20 hover:text-text-secondary"
+                      }`}
+                      aria-pressed={selected}
+                    >
+                      {sig.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-surface-border/50 bg-surface-muted/20 p-3">
+              <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">Live Notes</p>
+              <textarea
+                value={discoveryDraft.liveNotes}
+                onChange={(e) => updateDiscoveryDraft({ liveNotes: e.target.value })}
+                rows={6}
+                placeholder="Capture what you heard on the call: bottlenecks, decision makers, governance acceptance, and what would unlock expansion."
+                className="mt-3 w-full resize-none rounded-[18px] border border-surface-border/40 bg-surface-elevated/20 px-3 py-2 text-[12px] text-text-primary placeholder:text-text-faint focus:border-accent/35 focus:outline-none"
+              />
+              <p className="mt-2 text-[10px] text-text-faint">
+                Notes stay attached to the selected account context.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <div className="rounded-xl border border-accent/25 bg-accent/[0.06] p-4">
+            <p className="text-[10px] uppercase tracking-[0.1em] text-accent/90">Recommended Opening Angle</p>
+            <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">{discoveryLabOutput.recommendedOpeningAngle}</p>
+          </div>
+
+          <div className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-4">
+            <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">3 Core Discovery Questions</p>
+            <ol className="mt-2 list-decimal space-y-1 pl-5 text-[12px] text-text-secondary">
+              {discoveryLabOutput.coreDiscoveryQuestions.map((q) => (
+                <li key={q}>{q}</li>
+              ))}
+            </ol>
+          </div>
+
+          <div className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-4">
+            <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">Likely Follow-up Questions</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-[12px] text-text-secondary">
+              {discoveryLabOutput.likelyFollowUpQuestions.map((q) => (
+                <li key={q}>{q}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/[0.05] p-4">
+            <p className="text-[10px] uppercase tracking-[0.1em] text-emerald-300/90">What I'm Listening For</p>
+            <ul className="mt-2 list-disc space-y-1 pl-5 text-[12px] text-text-secondary">
+              {discoveryLabOutput.whatImListeningFor.map((q) => (
+                <li key={q}>{q}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-6 rounded-2xl border border-surface-border/50 bg-surface-muted/20 p-4 sm:p-5">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-medium uppercase tracking-[0.12em] text-text-faint">
+                POV Builder
+              </p>
+              <h3 className="mt-1 text-[15px] font-semibold text-text-primary">Turn discovery into an account-ready expansion narrative</h3>
+            </div>
+            {(discoveryPOVAdded || discoveryWeeklyAdded) && (
+              <div className="rounded-full border border-accent/25 bg-accent/[0.06] px-3 py-1.5 text-[11px] font-medium text-accent">
+                Last applied for this account
+              </div>
+            )}
+          </div>
+
+          <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+            <div className="rounded-xl border border-accent/25 bg-accent/[0.06] p-4">
+              <p className="text-[10px] uppercase tracking-[0.1em] text-accent/90">What I heard</p>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-[12px] text-text-secondary">
+                {discoveryLabOutput.whatIHeard.map((b) => (
+                  <li key={b}>{b}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-xl border border-surface-border/50 bg-surface-elevated/20 p-4">
+              <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">What it likely means</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">{discoveryLabOutput.whatItLikelyMeans}</p>
+            </div>
+
+            <div className="rounded-xl border border-accent/25 bg-accent/[0.06] p-4">
+              <p className="text-[10px] uppercase tracking-[0.1em] text-accent/90">Expansion angle</p>
+              <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">{discoveryLabOutput.expansionAngle}</p>
+            </div>
+
+            <div className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-4">
+              <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">Why Snowflake fits</p>
+              <ul className="mt-2 list-disc space-y-1 pl-5 text-[12px] text-text-secondary">
+                {discoveryLabOutput.whySnowflakeFits.map((b) => (
+                  <li key={b}>{b}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="rounded-xl border border-emerald-400/20 bg-emerald-400/[0.05] p-4 lg:col-span-2">
+              <div className="grid grid-cols-1 gap-3 lg:grid-cols-[1fr_1fr]">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.1em] text-emerald-300/90">Next best move</p>
+                  <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">{discoveryLabOutput.nextBestMove}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">Likely stakeholders to involve next</p>
+                  <ul className="mt-2 list-disc space-y-1 pl-5 text-[12px] text-text-secondary">
+                    {discoveryLabOutput.likelyStakeholdersToInvolveNext.map((s) => (
+                      <li key={s}>{s}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={handleAddToAccountDossier}
+              className="rounded-lg border border-accent/30 bg-accent/[0.08] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent/[0.14]"
+            >
+              Add to Account Dossier
+            </button>
+            <button
+              type="button"
+              onClick={handleAddToWeeklyTerritoryBrief}
+              className="rounded-lg border border-accent/30 bg-accent/[0.08] px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-accent transition-colors hover:bg-accent/[0.14]"
+            >
+              Add to Weekly Territory Brief
+            </button>
+            <button
+              type="button"
+              onClick={handleGenerateFollowUpSummary}
+              className="rounded-lg border border-surface-border/60 bg-surface-muted/40 px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-text-secondary transition-colors hover:border-accent/20 hover:text-text-primary"
+            >
+              Generate follow-up summary
+            </button>
+            <button
+              type="button"
+              onClick={handleGenerateNextStepEmail}
+              className="rounded-lg border border-surface-border/60 bg-surface-muted/40 px-3 py-2 text-[11px] font-medium uppercase tracking-[0.08em] text-text-secondary transition-colors hover:border-accent/20 hover:text-text-primary"
+            >
+              Generate next-step email
+            </button>
+          </div>
+
+          {(discoveryGenerated.followUpSummary || discoveryGenerated.nextStepEmail) && (
+            <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
+              {discoveryGenerated.followUpSummary && (
+                <div className="rounded-xl border border-surface-border/50 bg-surface-elevated/20 p-4">
+                  <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">Follow-up summary</p>
+                  <pre className="mt-2 whitespace-pre-wrap text-[12px] leading-relaxed text-text-secondary">
+                    {discoveryGenerated.followUpSummary}
+                  </pre>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => void copyText(discoveryGenerated.followUpSummary ?? "")}
+                      className="rounded-full border border-accent/20 bg-accent/[0.10] px-3 py-1.5 text-[12px] font-medium text-accent"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {discoveryGenerated.nextStepEmail && (
+                <div className="rounded-xl border border-surface-border/50 bg-surface-elevated/20 p-4">
+                  <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">Next-step email</p>
+                  <pre className="mt-2 whitespace-pre-wrap text-[12px] leading-relaxed text-text-secondary">
+                    {discoveryGenerated.nextStepEmail}
+                  </pre>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() => void copyText(discoveryGenerated.nextStepEmail ?? "")}
+                      className="rounded-full border border-accent/20 bg-accent/[0.10] px-3 py-1.5 text-[12px] font-medium text-accent"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* SECTION 3: DAILY ACCOUNT BRIEFING */}
       <section id="daily-account-briefing" className="scroll-mt-24 rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-6">
         <SectionHeader
@@ -854,7 +1782,17 @@ export function Overview({
           subtitle="Practical actions to advance account ownership this week."
         />
         <div className="mt-4 space-y-2.5">
-          {weeklyOperatingPriorities.slice(0, 5).map((item) => (
+          {(
+            discoveryWeeklyAdded
+              ? [
+                  ...discoveryWeeklyAdded.executionNextItems.map((item) => ({
+                    ...item,
+                    targetAccount: activeDossierAccount.name,
+                  })),
+                  ...weeklyOperatingPriorities.filter((item) => item.targetAccount !== activeDossierAccount.name),
+                ]
+              : weeklyOperatingPriorities
+          ).slice(0, 5).map((item) => (
             <article key={item.title} className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-3">
               <div className="grid grid-cols-1 gap-1.5 text-[12px] sm:grid-cols-[1.2fr_1fr_1fr_1.2fr] sm:gap-3">
                 <p className="text-text-primary"><span className="text-text-faint">Action:</span> {item.title}</p>
@@ -994,9 +1932,30 @@ export function Overview({
 
         {activeDossierTab === "Snowflake POV" && (
           <div className="mt-5 space-y-3">
+            {discoveryPOVAdded && (
+              <div className="rounded-xl border border-accent/35 bg-accent/[0.08] p-3">
+                <p className="text-[10px] uppercase tracking-[0.1em] text-accent/90">Live Discovery Lab POV (applied)</p>
+                <div className="mt-2 grid grid-cols-1 gap-2">
+                  <div className="rounded-lg border border-accent/20 bg-accent/[0.04] p-3">
+                    <p className="text-[10px] uppercase tracking-[0.1em] text-accent/80">What I heard</p>
+                    <ul className="mt-2 list-disc space-y-1 pl-5 text-[12px] text-text-secondary">
+                      {discoveryPOVAdded.whatIHeard.map((b) => (
+                        <li key={b}>{b}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="rounded-lg border border-surface-border/50 bg-surface-muted/30 p-3">
+                    <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">What it likely means</p>
+                    <p className="mt-2 text-[13px] leading-relaxed text-text-secondary">{discoveryPOVAdded.whatItLikelyMeans}</p>
+                  </div>
+                </div>
+              </div>
+            )}
             <div className="rounded-xl border border-accent/25 bg-accent/[0.06] p-3">
               <p className="text-[10px] uppercase tracking-[0.1em] text-accent/90">Best Land</p>
-              <p className="mt-1.5 text-[12px] text-text-secondary">{dossierInsights.snowflakePov.bestLand}</p>
+              <p className="mt-1.5 text-[12px] text-text-secondary">
+                {discoveryPOVAdded ? discoveryPOVAdded.expansionAngle : dossierInsights.snowflakePov.bestLand}
+              </p>
             </div>
             <div className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-3">
               <p className="text-[10px] uppercase tracking-[0.1em] text-text-faint">Expansion Path</p>
@@ -1034,7 +1993,10 @@ export function Overview({
             <div className="rounded-xl border border-accent/25 bg-accent/[0.06] p-3">
               <p className="text-[10px] uppercase tracking-[0.1em] text-accent/90">Next Steps</p>
               <ul className="mt-1.5 list-disc space-y-1 pl-5 text-[12px] text-text-secondary">
-                {dossierInsights.actionPlan.nextSteps.map((item) => (
+                {(discoveryPOVAdded
+                  ? [discoveryPOVAdded.nextBestMove, ...dossierInsights.actionPlan.nextSteps]
+                  : dossierInsights.actionPlan.nextSteps
+                ).map((item) => (
                   <li key={item}>{item}</li>
                 ))}
               </ul>

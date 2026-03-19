@@ -23,6 +23,7 @@ const sectionGroups = [
     label: "Territory Operating System",
     items: [
       { id: "territoryPriorities", label: "Territory Priorities", icon: Target },
+      { id: "liveDiscoveryLab", label: "Live Discovery Lab", icon: ClipboardCheck },
       { id: "dailyBriefing", label: "Daily Briefing", icon: Newspaper },
       { id: "operatingPriorities", label: "Operating Priorities", icon: ClipboardCheck },
       { id: "accountDossiers", label: "Account Dossiers", icon: FileText },
