@@ -177,10 +177,6 @@ export function Overview({
   const todayLabel = useMemo(() => getTodayLabel(), []);
   const topPriority = executionItems.find((i) => i.status === "blocked") ?? executionItems.find((i) => i.status === "in_progress");
   const lastUpdate = accountUpdates[0];
-  const plansForThisWeek = useMemo(
-    () => getPlansForThisWeek(accountUpdates, executionItems),
-    [accountUpdates, executionItems]
-  );
   const plansForThisWeekShort = useMemo(
     () => getPlansForThisWeekShort(accountUpdates, executionItems),
     [accountUpdates, executionItems]
@@ -386,6 +382,38 @@ export function Overview({
     },
   };
   const activeBriefing = briefingByAccount[activeBriefingAccount.id][activeBriefingWindow];
+  const weeklyOperatingPriorities = [
+    {
+      title: "Secure Tier 1 pilot scope and sponsor alignment",
+      whyNow: "Decision criteria are still being shaped this week.",
+      targetAccount: "Tier 1 Account 01",
+      expectedOutcome: "Approved 90-day pilot charter with success metrics.",
+    },
+    {
+      title: "Run consolidation discovery on highest-friction workflow",
+      whyNow: "Business pain is now explicit and sponsor-visible.",
+      targetAccount: "Tier 1 Account 02",
+      expectedOutcome: "Validated land use case with quantified urgency.",
+    },
+    {
+      title: "Lock governance path for AI-adjacent first deployment",
+      whyNow: "Security stakeholders are active early in this cycle.",
+      targetAccount: "Tier 1 Account 03",
+      expectedOutcome: "Agreed deployment guardrails and approval path.",
+    },
+    {
+      title: "Convert BU urgency into enterprise-backed pilot motion",
+      whyNow: "BU performance pressure is creating fast executive air cover.",
+      targetAccount: "Tier 1 Account 04",
+      expectedOutcome: "Named BU sponsor and cross-functional deal team.",
+    },
+    {
+      title: "Publish competitive POV before formal vendor scoring",
+      whyNow: "Procurement process is moving from interest to comparison.",
+      targetAccount: "Tier 1 Account 05",
+      expectedOutcome: "Evaluation rubric aligned to governance and business outcomes.",
+    },
+  ] as const;
   const dossierInsights = useMemo(() => {
     const p = activeDossierAccount;
     return {
@@ -900,13 +928,22 @@ export function Overview({
             This week&apos;s operating priorities
           </p>
         </div>
-        <div className="rounded-2xl border border-accent/20 bg-surface-muted/50 p-4 sm:p-6">
-          <p className="whitespace-pre-wrap text-[13px] leading-relaxed text-text-secondary">
-            {plansForThisWeek}
-          </p>
-          <p className="mt-3 text-[11px] text-text-faint">
-            From last week&apos;s notes and where things need to progress.
-          </p>
+        <div className="rounded-2xl border border-accent/20 bg-surface-muted/50 p-4 sm:p-5">
+          <div className="space-y-2.5">
+            {weeklyOperatingPriorities.map((item) => (
+              <article
+                key={item.title}
+                className="rounded-xl border border-surface-border/50 bg-surface-elevated/40 p-3"
+              >
+                <div className="grid grid-cols-1 gap-1.5 text-[12px] sm:grid-cols-[1.2fr_1fr_1fr_1.2fr] sm:gap-3">
+                  <p className="text-text-primary"><span className="text-text-faint">Title:</span> {item.title}</p>
+                  <p className="text-text-secondary"><span className="text-text-faint">Why now:</span> {item.whyNow}</p>
+                  <p className="text-text-secondary"><span className="text-text-faint">Target account:</span> {item.targetAccount}</p>
+                  <p className="text-text-secondary"><span className="text-text-faint">Expected outcome:</span> {item.expectedOutcome}</p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
