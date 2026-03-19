@@ -80,8 +80,8 @@ export function Overview({
       expansionPath: "Expand into AI-assisted analytics, operational decisioning, and data-sharing products.",
       pressure: "Likely Databricks technical momentum plus cloud-native alternatives.",
       personas: "CDO, Head of Data Engineering, Analytics leader, Governance lead.",
-      hypothesis: "Public signal: modernization pressure is rising. Initial hypothesis: sponsor will back a narrow pilot if governance and speed are both addressed.",
-      nextMove: "Run executive alignment call and lock 90-day pilot success metrics.",
+      hypothesis: "Likely hypothesis: the buyer will back a narrow land if governance and time-to-value are both explicit. Why I believe it: public modernization pressure and cross-functional urgency. How I would validate it: confirm decision ownership, approval gates, and 90-day success criteria in the first executive working session.",
+      nextMove: "Determine who owns data and AI strategy, how purchase decisions are made, and anchor the first conversation on one business workflow with executive visibility.",
     },
     {
       id: "t1-02",
@@ -92,8 +92,8 @@ export function Overview({
       expansionPath: "Broaden to enterprise-wide data products, AI workloads, and departmental self-service.",
       pressure: "Databricks evaluation likely active with cloud-native alternatives in scope.",
       personas: "CIO, Data Engineering Director, Finance Analytics leader, Security architect.",
-      hypothesis: "Public signal: consolidation language appears in leadership messaging. To validate post-onboarding: incumbent architecture constraints.",
-      nextMove: "Secure technical workshop with decision-makers and map incumbent displacement path.",
+      hypothesis: "Likely hypothesis: consolidation is now a near-term executive priority tied to operating friction. Why I believe it: leadership messaging emphasizes simplification and delivery speed. How I would validate it: map where data is fragmented today and where Snowflake could unify access, governance, and core workloads.",
+      nextMove: "Test whether Databricks is entrenched in engineering workflows, then position a first land around the highest-friction business use case rather than platform features.",
     },
     {
       id: "t1-03",
@@ -104,8 +104,8 @@ export function Overview({
       expansionPath: "Scale to additional domains, partner data exchange, and enterprise AI applications.",
       pressure: "Databricks incumbency likely strong; cloud-native alternatives may shape economics.",
       personas: "Chief Digital Officer, Head of Data Science, Platform owner, Risk/Compliance.",
-      hypothesis: "Initial hypothesis: risk-controlled speed is the winning narrative. To validate post-onboarding: actual buyer map and approval gates.",
-      nextMove: "Identify champion and co-author pilot narrative for steering committee review.",
+      hypothesis: "Likely hypothesis: risk-controlled speed will win over broad platform narratives. Why I believe it: AI urgency is high but governance tolerance is low. How I would validate it: identify active ML initiatives, confirm platform ownership, and verify where governance is blocking productionization.",
+      nextMove: "Determine whether ML and data platform decisions sit with one owner or split owners, and build a first-call POV that ties governed AI delivery to one measurable business outcome.",
     },
     {
       id: "t1-04",
@@ -116,8 +116,8 @@ export function Overview({
       expansionPath: "Expand into predictive analytics, AI-powered operations, and cross-region data collaboration.",
       pressure: "Databricks technical champions likely active; cloud-native alternatives are default shortlist options.",
       personas: "BU President, Head of Data, Enterprise Architect, Security leader.",
-      hypothesis: "Public signal: BU urgency is visible. Initial hypothesis: a scoped business-case pilot can bypass platform politics.",
-      nextMove: "Present value case with timeline, owners, and go-live criteria in next exec readout.",
+      hypothesis: "Likely hypothesis: a BU-led land can move faster than an enterprise-wide platform debate. Why I believe it: public operating pressure is strongest at the BU level. How I would validate it: confirm where urgency is highest and which executive will sponsor a scoped pilot.",
+      nextMove: "Map the BU decision process end-to-end, identify budget ownership, and position Snowflake around faster, governed decisions in the workflow leadership already tracks weekly.",
     },
     {
       id: "t1-05",
@@ -128,8 +128,8 @@ export function Overview({
       expansionPath: "Move into AI productization, external data distribution, and enterprise workload standardization.",
       pressure: "Databricks preference may exist in engineering; cloud-native alternatives likely in parallel.",
       personas: "CTO, VP Engineering, Data Governance leader, LoB analytics sponsor.",
-      hypothesis: "Initial hypothesis: support increases once governance is shown without slowing delivery. To validate post-onboarding: current vendor footprint.",
-      nextMove: "Launch multi-threaded stakeholder plan and convert current interest into pilot commitment.",
+      hypothesis: "Likely hypothesis: support expands when governance is proven without slowing delivery. Why I believe it: transformation programs are active but platform standards are unsettled. How I would validate it: confirm current Snowflake footprint, competitor presence, and which partner influences architecture direction.",
+      nextMove: "Identify the first realistic land that can expand over 12-24 months, then multi-thread data, AI, and app stakeholders to lock sponsor alignment before requirements harden.",
     },
   ] as const, []);
   type PriorityAccount = (typeof territoryPriorityAccounts)[number];
@@ -640,9 +640,37 @@ export function Overview({
           This is not a study guide or a fake dashboard. It is how I would get dangerous in the territory as quickly as possible using public signals, structured hypotheses, and disciplined account prioritization.
         </p>
         <p className="mt-3 rounded-lg border border-surface-border/50 bg-surface-muted/30 px-3 py-2 text-[11px] text-text-muted">
-          Built using public information only. Internal account details, consumption levels, active opportunities, and competitive footprint still need to be validated post-onboarding.
+          Built using public information and structured hypotheses. Internal account detail, current consumption, active opportunities, and competitive footprint would need to be validated quickly post-onboarding.
         </p>
       </div>
+
+      <section className="rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-5">
+        <SectionHeader
+          title="How I'm Approaching This Territory"
+          subtitle="Operating plan for stepping into the seat and driving early momentum."
+        />
+        <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[12px] text-text-secondary">
+          <li>Focus first on 4-5 Tier 1 accounts where executive urgency and workload relevance are strongest.</li>
+          <li>Land a meaningful first workload tied to a business outcome leaders already measure.</li>
+          <li>Expand by multi-threading data, AI, and application stakeholders early in the cycle.</li>
+          <li>Use public signals to create timing, relevance, and a sharper first-call POV.</li>
+          <li>Validate assumptions quickly post-onboarding instead of pretending to know internal detail today.</li>
+        </ul>
+      </section>
+
+      <section className="rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-5">
+        <SectionHeader
+          title="What I Need to Validate"
+          subtitle="Disciplined checks that increase execution quality in the first onboarding cycle."
+        />
+        <ul className="mt-3 list-disc space-y-1.5 pl-5 text-[12px] text-text-secondary">
+          <li>Current Snowflake footprint, if any, and where it is materially used.</li>
+          <li>Databricks and other competitor presence by workflow, team, and sponsor alignment.</li>
+          <li>Active data, analytics, and AI initiatives with near-term executive visibility.</li>
+          <li>Budget ownership, buying process, and who can approve a first land motion.</li>
+          <li>Where urgency actually exists today and which partners influence platform choices.</li>
+        </ul>
+      </section>
 
       {/* SECTION 2: TERRITORY PRIORITIES */}
       <section id="territory-priorities" className="space-y-4">
@@ -980,45 +1008,40 @@ export function Overview({
       <section id="execution-framework" className="rounded-2xl border border-surface-border/50 bg-surface-elevated/30 p-4 sm:p-6">
         <SectionHeader
           title="Execution Framework"
-          subtitle="Compact field cheat sheet for positioning and first-month execution."
+          subtitle="Support layer only: concise field guidance for execution."
         />
         <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
           <article className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-3">
             <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-text-faint">Snowflake Positioning</p>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-[12px] text-text-secondary">
-              <li>Governed enterprise data + AI platform for production workloads.</li>
-              <li>Land and expand through workload specificity, not broad platform promises.</li>
-              <li>Control plane, governance, and enterprise readiness are core differentiators.</li>
-              <li>Win by proving speed and control in the same first motion.</li>
+              <li>Governed enterprise data + AI platform built for production scale.</li>
+              <li>Land and expand through workload specificity, not broad transformation language.</li>
+              <li>Differentiate on governance, interoperability, and enterprise readiness.</li>
             </ul>
           </article>
           <article className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-3">
-            <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-text-faint">Core Use Case Entry Points</p>
+            <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-text-faint">How I Would Sell It</p>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-[12px] text-text-secondary">
-              <li>Analytics</li>
-              <li>Data engineering</li>
-              <li>AI/ML</li>
-              <li>Apps</li>
-              <li>Governance and sharing</li>
+              <li>Anchor the first call on one business use case with executive impact.</li>
+              <li>Show how Snowflake unifies access, governance, and execution speed.</li>
+              <li>Define a land that can realistically expand across adjacent workloads.</li>
             </ul>
           </article>
           <article className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-3">
             <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-text-faint">First 30 Days</p>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-[12px] text-text-secondary">
-              <li>Map top accounts and likely workload priorities.</li>
-              <li>Identify active workloads and buying triggers.</li>
-              <li>Validate stakeholder ownership and approval sequence.</li>
-              <li>Validate competitive footprint and likely Databricks exposure.</li>
-              <li>Build first-call POVs for each Tier 1 account.</li>
+              <li>Map Tier 1 accounts, active workloads, and executive-level triggers.</li>
+              <li>Determine ownership of data, AI, and platform decisions.</li>
+              <li>Validate competitor footprint, buying process, and partner influence.</li>
+              <li>Publish first-call POVs and next actions for each Tier 1 account.</li>
             </ul>
           </article>
           <article className="rounded-xl border border-surface-border/50 bg-surface-muted/30 p-3">
             <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-text-faint">Competitive Frame</p>
             <ul className="mt-2 list-disc space-y-1 pl-5 text-[12px] text-text-secondary">
-              <li>Snowflake: enterprise trust, governance, interoperability, workload breadth.</li>
-              <li>Databricks: strong technical momentum in engineering-led motions.</li>
-              <li>Cloud-native alternatives: often default shortlist options on procurement cycles.</li>
-              <li>Position on outcome speed + governance confidence, not tool theater.</li>
+              <li>Databricks can be entrenched in ML or engineering paths - test this early.</li>
+              <li>Compete on enterprise trust, governance confidence, and workload breadth.</li>
+              <li>Keep the comparison tied to business outcomes, not feature theater.</li>
             </ul>
           </article>
         </div>
